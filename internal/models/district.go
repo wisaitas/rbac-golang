@@ -5,4 +5,6 @@ type District struct {
 	NameTH     string `gorm:"type:varchar(100)" json:"name_th"`
 	NameEN     string `gorm:"type:varchar(100)" json:"name_en"`
 	ProvinceID int    `gorm:"type:integer" json:"province_id"`
+
+	Province *Province `gorm:"foreignKey:ProvinceID"`
 }

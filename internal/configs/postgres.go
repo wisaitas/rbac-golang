@@ -47,11 +47,20 @@ func autoMigrate(db *gorm.DB) error {
 		&models.Permission{},
 		&models.User{},
 		&models.Role{},
+		&models.UserRole{},
+		&models.RolePermission{},
 		&models.UserHistory{},
 		&models.Province{},
 		&models.District{},
 		&models.SubDistrict{},
 		&models.Address{},
+		&models.Category{},
+		&models.Product{},
+		&models.ProductImage{},
+		&models.Order{},
+		&models.OrderItem{},
+		&models.ShippingAddress{},
+		&models.Wishlist{},
 	); err != nil {
 		return fmt.Errorf("error migrating database: %w", err)
 	}
