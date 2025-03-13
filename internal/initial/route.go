@@ -30,7 +30,7 @@ func initializeRoutes(
 		AuthRoutes: routes.NewAuthRoutes(
 			apiRoutes,
 			&handlers.AuthHandler,
-			&validates.AuthValidate,
+			&validates.AuthValidates,
 			&middlewares.AuthMiddleware,
 		),
 		ProvinceRoutes: routes.NewProvinceRoutes(
