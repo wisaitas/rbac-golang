@@ -1,11 +1,11 @@
 package models
 
 type Permission struct {
-	BaseModel
-	Name        string  `gorm:"type:varchar(255);not null"`
-	Description *string `gorm:"type:varchar(400)"`
+	ID          int     `gorm:"type:integer;primaryKey" json:"id"`
+	Name        string  `gorm:"type:varchar(255);not null" json:"name"`
+	Description *string `gorm:"type:varchar(400)" json:"description"`
 
-	Roles []Role `gorm:"many2many:role_permissions;"`
+	Roles []Role `gorm:"many2many:role_permissions;" json:"roles"`
 }
 
 // ตัวอย่างสิทธิ์ที่ควรสร้าง:

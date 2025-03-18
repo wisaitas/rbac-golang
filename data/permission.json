@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "name": "user_create",
+        "description": "Create a new user"
+    },
+    {
+        "id": 2,
+        "name": "user_read",
+        "description": "Read a user"
+    },
+    {
+        "id": 3,
+        "name": "user_update",
+        "description": "Update a user"
+    },
+    {
+        "id": 4,
+        "name": "user_delete",
+        "description": "Delete a user"
+    },
+    {
+        "id": 5,
+        "name": "role_create",
+        "description": "Create a new role"
+    },
+    {
+        "id": 6,
+        "name": "role_read",
+        "description": "Read a role"
+    },
+    {
+        "id": 7,
+        "name": "role_update",
+        "description": "Update a role"
+    },
+    {
+        "id": 8,
+        "name": "role_delete",
+        "description": "Delete a role"
+    }
+]
