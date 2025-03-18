@@ -55,7 +55,7 @@ for MODEL_FILE in "$MODELS_DIR"/*.go; do
 package repositories
 
 import (
-	"github.com/wisaitas/standard-golang/internal/models"
+	"github.com/wisaitas/rbac-golang/internal/models"
 	"gorm.io/gorm"
 )
 
@@ -123,8 +123,8 @@ cat > "${REPO_FILE}" << EOF
 package initial
 
 import (
-	"github.com/wisaitas/standard-golang/internal/models"
-	"github.com/wisaitas/standard-golang/internal/repositories"
+	"github.com/wisaitas/rbac-golang/internal/models"
+	"github.com/wisaitas/rbac-golang/internal/repositories"
 	"gorm.io/gorm"
 )
 
@@ -157,7 +157,7 @@ cat > "${VALIDATE_FILE}" << EOF
 package initial
 
 import (
-	"github.com/wisaitas/standard-golang/internal/validates"
+	"github.com/wisaitas/rbac-golang/internal/validates"
 )
 
 type Validates struct {

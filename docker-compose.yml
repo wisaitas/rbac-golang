@@ -18,7 +18,7 @@ services:
   db:
     build:
       context: .
-      dockerfile: deployment/docker-images/postgres.Dockerfile
+      dockerfile: deployment/docker-images/auth-db/postgres.Dockerfile
     container_name: rbac-golang-db
     ports:
       - 8080:5432

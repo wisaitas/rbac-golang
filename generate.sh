@@ -46,7 +46,7 @@ for MODEL_FILE in "$MODELS_DIR"/*.go; do
 package repositories
 
 import (
-	"github.com/wisaitas/standard-golang/internal/models"
+	"github.com/wisaitas/rbac-golang/internal/models"
 	"gorm.io/gorm"
 )
 
