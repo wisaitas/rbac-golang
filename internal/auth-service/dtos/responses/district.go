@@ -1,12 +1,16 @@
 package responses
 
-import "github.com/wisaitas/rbac-golang/internal/auth-service/models"
+import (
+	"github.com/google/uuid"
+	"github.com/wisaitas/rbac-golang/internal/auth-service/models"
+	"github.com/wisaitas/rbac-golang/pkg"
+)
 
 type DistrictResponse struct {
-	ID         int    `json:"id"`
-	NameTH     string `json:"name_th"`
-	NameEN     string `json:"name_en"`
-	ProvinceID int    `json:"province_id"`
+	pkg.BaseResponse
+	NameTH     string    `json:"name_th"`
+	NameEN     string    `json:"name_en"`
+	ProvinceID uuid.UUID `json:"province_id"`
 }
 
 func (r *DistrictResponse) ModelToResponse(model models.District) DistrictResponse {

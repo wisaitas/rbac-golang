@@ -6,15 +6,13 @@ type CreateRoleRequest struct {
 	Name        string  `json:"name" validate:"required"`
 	Description *string `json:"description" validate:"omitempty"`
 
-	Permissions []string `json:"permissions" validate:"required"`
+	Permissions []CreatePermissionRequest `json:"permissions" validate:"dive"`
 }
 
 func (r *CreateRoleRequest) ReqToModel() models.Role {
 	permissions := []models.Permission{}
 	for _, permission := range r.Permissions {
-		permissions = append(permissions, models.Permission{
-			Name: permission,
-		})
+		permissions = append(permissions, permission.ReqToModel())
 	}
 
 	return models.Role{

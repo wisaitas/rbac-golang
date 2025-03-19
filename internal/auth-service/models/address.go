@@ -2,14 +2,15 @@ package models
 
 import (
 	"github.com/google/uuid"
+	"github.com/wisaitas/rbac-golang/pkg"
 )
 
 type Address struct {
-	BaseModel
-	ProvinceID    int     `gorm:"type:integer;not null"`
-	DistrictID    int     `gorm:"type:integer;not null"`
-	SubDistrictID int     `gorm:"type:integer;not null"`
-	Address       *string `gorm:"type:varchar(400)"`
+	pkg.BaseModel
+	ProvinceID    uuid.UUID `gorm:"type:uuid;not null"`
+	DistrictID    uuid.UUID `gorm:"type:uuid;not null"`
+	SubDistrictID uuid.UUID `gorm:"type:uuid;not null"`
+	Address       *string   `gorm:"type:varchar(400)"`
 
 	UserID uuid.UUID `gorm:"type:uuid;not null"`
 

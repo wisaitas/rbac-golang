@@ -37,7 +37,7 @@ func (r *DistrictHandler) GetDistricts(c *fiber.Ctx) error {
 	}
 
 	return c.Status(statusCode).JSON(pkg.SuccessResponse{
-		Message: "Districts fetched successfully",
+		Message: "districts fetched successfully",
 		Data:    districts,
 	})
 }

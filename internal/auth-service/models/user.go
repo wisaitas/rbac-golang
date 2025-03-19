@@ -2,10 +2,12 @@ package models
 
 import (
 	"time"
+
+	"github.com/wisaitas/rbac-golang/pkg"
 )
 
 type User struct {
-	BaseModel
+	pkg.BaseModel
 	Username  string    `gorm:"type:varchar(40);not null;unique"`
 	FirstName string    `gorm:"type:varchar(80);not null"`
 	LastName  string    `gorm:"type:varchar(80);not null"`

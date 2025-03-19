@@ -17,6 +17,7 @@ type Repositories struct {
 	UserRepository           repositories.UserRepository
 	UserHistoryRepository    repositories.UserHistoryRepository
 	UserRoleRepository       repositories.UserRoleRepository
+	PermissionRepository     repositories.PermissionRepository
 }
 
 func initializeRepositories(db *gorm.DB) *Repositories {
@@ -30,5 +31,6 @@ func initializeRepositories(db *gorm.DB) *Repositories {
 		UserRepository:           repositories.NewUserRepository(db, pkg.NewBaseRepository[models.User](db)),
 		UserHistoryRepository:    repositories.NewUserHistoryRepository(db, pkg.NewBaseRepository[models.UserHistory](db)),
 		UserRoleRepository:       repositories.NewUserRoleRepository(db, pkg.NewBaseRepository[models.UserRole](db)),
+		PermissionRepository:     repositories.NewPermissionRepository(db, pkg.NewBaseRepository[models.Permission](db)),
 	}
 }

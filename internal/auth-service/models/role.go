@@ -1,7 +1,9 @@
 package models
 
+import "github.com/wisaitas/rbac-golang/pkg"
+
 type Role struct {
-	BaseModel
+	pkg.BaseModel
 	Name        string  `gorm:"type:varchar(255);not null"`
 	Description *string `gorm:"type:varchar(400)"`
 
