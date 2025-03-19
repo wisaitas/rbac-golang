@@ -35,9 +35,11 @@ func initializeServices(repos *Repositories, redisClient pkg.RedisClient) *Servi
 		),
 		DistrictService: districtService.NewDistrictService(
 			districtService.NewRead(repos.DistrictRepository, redisClient),
+			districtService.NewCreate(repos.DistrictRepository, redisClient),
 		),
 		SubDistrictService: subDistrictService.NewSubDistrictService(
 			subDistrictService.NewRead(repos.SubDistrictRepository, redisClient),
+			subDistrictService.NewCreate(repos.SubDistrictRepository, redisClient),
 		),
 		PermissionService: permissionService.NewPermissionService(
 			permissionService.NewCreate(repos.PermissionRepository, redisClient),

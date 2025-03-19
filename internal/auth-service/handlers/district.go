@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/wisaitas/rbac-golang/internal/auth-service/dtos/queries"
+	"github.com/wisaitas/rbac-golang/internal/auth-service/dtos/requests"
 	districtService "github.com/wisaitas/rbac-golang/internal/auth-service/services/district"
 	"github.com/wisaitas/rbac-golang/pkg"
 )
@@ -39,5 +40,26 @@ func (r *DistrictHandler) GetDistricts(c *fiber.Ctx) error {
 	return c.Status(statusCode).JSON(pkg.SuccessResponse{
 		Message: "districts fetched successfully",
 		Data:    districts,
+	})
+}
+
+func (r *DistrictHandler) ImportDistricts(c *fiber.Ctx) error {
+	req, ok := c.Locals("req").(requests.ImportDistrict)
+	if !ok {
+		return c.Status(fiber.StatusBadRequest).JSON(pkg.ErrorResponse{
+			Message: pkg.Error(errors.New("failed to get request")).Error(),
+		})
+	}
+
+	statusCode, err := r.districtService.ImportDistricts(req)
+	if err != nil {
+		return c.Status(statusCode).JSON(pkg.ErrorResponse{
+			Message: pkg.Error(err).Error(),
+		})
+	}
+
+	return c.Status(statusCode).JSON(pkg.SuccessResponse{
+		Message: "districts imported successfully",
+		Data:    nil,
 	})
 }

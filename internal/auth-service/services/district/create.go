@@ -1,4 +1,4 @@
-package province
+package district
 
 import (
 	"net/http"
@@ -10,29 +10,29 @@ import (
 )
 
 type Create interface {
-	ImportProvinces(req requests.ImportProvince) (statusCode int, err error)
+	ImportDistricts(req requests.ImportDistrict) (statusCode int, err error)
 }
 
 type create struct {
-	provinceRepository repositories.ProvinceRepository
+	districtRepository repositories.DistrictRepository
 	redisClient        pkg.RedisClient
 }
 
 func NewCreate(
-	provinceRepository repositories.ProvinceRepository,
+	districtRepository repositories.DistrictRepository,
 	redisClient pkg.RedisClient,
 ) Create {
 	return &create{
-		provinceRepository: provinceRepository,
+		districtRepository: districtRepository,
 		redisClient:        redisClient,
 	}
 }
 
-func (r *create) ImportProvinces(req requests.ImportProvince) (statusCode int, err error) {
+func (r *create) ImportDistricts(req requests.ImportDistrict) (statusCode int, err error) {
 	if req.File.Header.Get("Content-Type") == constants.ContentType.CSV {
-		return importCSV(req, r.provinceRepository)
+		return importCSV(req, r.districtRepository)
 	} else if req.File.Header.Get("Content-Type") == constants.ContentType.JSON {
-		return importJSON(req, r.provinceRepository)
+		return importJSON(req, r.districtRepository)
 	}
 
 	return http.StatusOK, nil

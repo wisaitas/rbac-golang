@@ -29,4 +29,7 @@ func (r *SubDistrictRoutes) SubDistrictRoutes() {
 
 	// Method GET
 	subDistricts.Get("/", r.subDistrictValidate.ValidateGetSubDistrictsRequest, r.subDistrictHandler.GetSubDistricts)
+
+	// Method POST
+	subDistricts.Post("/import", r.subDistrictValidate.ValidateImportSubDistrictsRequest, r.subDistrictHandler.ImportSubDistricts)
 }

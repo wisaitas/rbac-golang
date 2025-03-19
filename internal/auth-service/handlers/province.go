@@ -43,7 +43,7 @@ func (r *ProvinceHandler) GetProvinces(c *fiber.Ctx) error {
 }
 
 func (r *ProvinceHandler) ImportProvinces(c *fiber.Ctx) error {
-	req, ok := c.Locals("request").(requests.ImportProvince)
+	req, ok := c.Locals("req").(requests.ImportProvince)
 	if !ok {
 		return c.Status(fiber.StatusBadRequest).JSON(pkg.ErrorResponse{
 			Message: pkg.Error(errors.New("failed to get request")).Error(),
@@ -59,6 +59,6 @@ func (r *ProvinceHandler) ImportProvinces(c *fiber.Ctx) error {
 
 	return c.Status(statusCode).JSON(pkg.SuccessResponse{
 		Message: "provinces imported successfully",
-		Data:    req,
+		Data:    nil,
 	})
 }

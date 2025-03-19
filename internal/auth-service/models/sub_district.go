@@ -7,10 +7,11 @@ import (
 
 type SubDistrict struct {
 	pkg.BaseModel
-	NameTH     string    `gorm:"type:varchar(100)" json:"name_th"`
-	NameEN     string    `gorm:"type:varchar(100)" json:"name_en"`
-	DistrictID uuid.UUID `gorm:"type:uuid" json:"district_id"`
-	ZipCode    int       `gorm:"type:integer" json:"zip_code"`
+	ImportID   int       `gorm:"type:integer"`
+	NameTH     string    `gorm:"type:varchar(100)"`
+	NameEN     string    `gorm:"type:varchar(100)"`
+	DistrictID uuid.UUID `gorm:"type:uuid"`
+	ZipCode    string    `gorm:"type:varchar(10)"`
 
 	District *District `gorm:"foreignKey:DistrictID"`
 }

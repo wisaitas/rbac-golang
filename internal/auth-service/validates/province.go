@@ -35,6 +35,6 @@ func (r *ProvinceValidate) ValidateImportProvincesRequest(c *fiber.Ctx) error {
 		})
 	}
 
-	c.Locals("request", request)
+	c.Locals("req", request)
 	return c.Next()
 }

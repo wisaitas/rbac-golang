@@ -45,7 +45,7 @@ func (r *update) UpdateUser(param params.UserParams, request requests.UpdateUser
 
 	if err := tx.Create(
 		&models.UserHistory{
-			Action:      constants.ACTION.UPDATE,
+			Action:      constants.Action.Update,
 			UserID:      user.ID,
 			FirstName:   user.FirstName,
 			LastName:    user.LastName,

@@ -115,7 +115,7 @@ func (r *authService) Register(req requests.RegisterRequest) (resp responses.Reg
 
 	if err := tx.Create(
 		&models.UserHistory{
-			Action:      constants.ACTION.CREATE,
+			Action:      constants.Action.Create,
 			UserID:      user.ID,
 			FirstName:   user.FirstName,
 			LastName:    user.LastName,
