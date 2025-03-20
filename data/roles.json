@@ -1,1 +1,10 @@
-[]
+[
+    {
+        "Name": "admin",
+        "Description": "Administrator"
+    },
+    {
+        "Name": "user",
+        "Description": "User"
+    }
+]

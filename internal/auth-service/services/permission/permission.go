@@ -5,7 +5,7 @@ type PermissionService interface {
 }
 
 type permissionService struct {
-	Create Create
+	Create
 }
 
 func NewPermissionService(
