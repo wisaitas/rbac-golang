@@ -1,10 +1,7 @@
 [
-    {
-        "Name": "admin",
-        "Description": "Administrator"
-    },
-    {
-        "Name": "user",
-        "Description": "User"
-    }
+  {
+    "id": "013b2d4f-1e11-49bf-9ce8-23ad0a256cfc",
+    "name": "admin",
+    "description": "Admin role"
+  }
 ]

@@ -1,8 +1,6 @@
 package requests
 
 import (
-	"mime/multipart"
-
 	"github.com/wisaitas/rbac-golang/internal/auth-service/models"
 )
 
@@ -16,8 +14,4 @@ func (r *CreatePermissionRequest) ReqToModel() models.Permission {
 		Name:        r.Name,
 		Description: r.Description,
 	}
-}
-
-type ImportPermission struct {
-	File *multipart.FileHeader `form:"file"`
 }

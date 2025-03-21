@@ -1,11 +1,14 @@
 package responses
 
-import "github.com/wisaitas/rbac-golang/internal/auth-service/models"
+import (
+	"github.com/google/uuid"
+	"github.com/wisaitas/rbac-golang/internal/auth-service/models"
+)
 
 type CreatePermissionResponse struct {
-	ID          int     `json:"id"`
-	Name        string  `json:"name"`
-	Description *string `json:"description"`
+	ID          uuid.UUID `json:"id"`
+	Name        string    `json:"name"`
+	Description *string   `json:"description"`
 }
 
 func (r *CreatePermissionResponse) ModelToResponse(permission models.Permission) CreatePermissionResponse {

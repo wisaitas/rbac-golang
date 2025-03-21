@@ -29,7 +29,4 @@ func (r *DistrictRoutes) DistrictRoutes() {
 
 	// Method GET
 	districts.Get("/", r.districtValidate.ValidateGetDistrictsRequest, r.districtHandler.GetDistricts)
-
-	// Method POST
-	districts.Post("/import", r.districtValidate.ValidateImportDistrictsRequest, r.districtHandler.ImportDistricts)
 }

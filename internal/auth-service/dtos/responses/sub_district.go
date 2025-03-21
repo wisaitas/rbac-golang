@@ -11,7 +11,7 @@ type SubDistrictResponse struct {
 	NameTH     string    `json:"name_th"`
 	NameEN     string    `json:"name_en"`
 	DistrictID uuid.UUID `json:"district_id"`
-	ZipCode    string    `json:"zip_code"`
+	PostalCode string    `json:"postal_code"`
 }
 
 func (r *SubDistrictResponse) ModelToResponse(model models.SubDistrict) SubDistrictResponse {
@@ -19,7 +19,7 @@ func (r *SubDistrictResponse) ModelToResponse(model models.SubDistrict) SubDistr
 	r.NameTH = model.NameTH
 	r.NameEN = model.NameEN
 	r.DistrictID = model.DistrictID
-	r.ZipCode = model.ZipCode
+	r.PostalCode = model.PostalCode
 
 	return *r
 }

@@ -4,7 +4,6 @@ import (
 	"errors"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/wisaitas/rbac-golang/internal/auth-service/dtos/requests"
 	provinceService "github.com/wisaitas/rbac-golang/internal/auth-service/services/province"
 	"github.com/wisaitas/rbac-golang/pkg"
 )
@@ -39,26 +38,5 @@ func (r *ProvinceHandler) GetProvinces(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(pkg.SuccessResponse{
 		Message: "provinces fetched successfully",
 		Data:    provinces,
-	})
-}
-
-func (r *ProvinceHandler) ImportProvinces(c *fiber.Ctx) error {
-	req, ok := c.Locals("req").(requests.ImportProvince)
-	if !ok {
-		return c.Status(fiber.StatusBadRequest).JSON(pkg.ErrorResponse{
-			Message: pkg.Error(errors.New("failed to get request")).Error(),
-		})
-	}
-
-	statusCode, err := r.provinceService.ImportProvinces(req)
-	if err != nil {
-		return c.Status(statusCode).JSON(pkg.ErrorResponse{
-			Message: pkg.Error(err).Error(),
-		})
-	}
-
-	return c.Status(statusCode).JSON(pkg.SuccessResponse{
-		Message: "provinces imported successfully",
-		Data:    nil,
 	})
 }

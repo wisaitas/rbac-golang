@@ -1,6 +1,8 @@
 package requests
 
-import "github.com/wisaitas/rbac-golang/internal/auth-service/models"
+import (
+	"github.com/wisaitas/rbac-golang/internal/auth-service/models"
+)
 
 type CreateRoleRequest struct {
 	Name        string  `json:"name" validate:"required"`

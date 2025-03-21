@@ -1,18 +1,11 @@
 [
-    {
-        "Username": "admin",
-        "FirstName": "First Admin",
-        "LastName": "Last Admin",
-        "BirthDate": "1999-08-08T00:00:00+07:00",
-        "Email": "admin@admin.com",
-        "Password": "admin",
-        "Roles": [
-            {
-                "Name": "admin"
-            },
-            {
-                "Name": "user"
-            }
-        ]
-    }
+  {
+    "username": "admin",
+    "first_name": "Admin",
+    "last_name": "User",
+    "birth_date": "1990-01-01T00:00:00+07:00",
+    "email": "admin@admin.com",
+    "password": "admin1234",
+    "id": "bb0ceae0-724d-4891-b77c-bc7886079210"
+  }
 ]

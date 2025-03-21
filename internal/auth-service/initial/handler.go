@@ -10,6 +10,7 @@ type Handlers struct {
 	ProvinceHandler    handlers.ProvinceHandler
 	DistrictHandler    handlers.DistrictHandler
 	SubDistrictHandler handlers.SubDistrictHandler
+	PermissionHandler  handlers.PermissionHandler
 }
 
 func initializeHandlers(services *Services) *Handlers {
@@ -19,5 +20,6 @@ func initializeHandlers(services *Services) *Handlers {
 		ProvinceHandler:    *handlers.NewProvinceHandler(services.ProvinceService),
 		DistrictHandler:    *handlers.NewDistrictHandler(services.DistrictService),
 		SubDistrictHandler: *handlers.NewSubDistrictHandler(services.SubDistrictService),
+		PermissionHandler:  *handlers.NewPermissionHandler(services.PermissionService),
 	}
 }

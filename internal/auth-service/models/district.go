@@ -7,7 +7,6 @@ import (
 
 type District struct {
 	pkg.BaseModel
-	ImportID   *int      `gorm:"type:int"`
 	NameTH     string    `gorm:"type:varchar(100);not null"`
 	NameEN     string    `gorm:"type:varchar(100);not null"`
 	ProvinceID uuid.UUID `gorm:"type:uuid;not null"`

@@ -30,6 +30,4 @@ func (r *ProvinceRoutes) ProvinceRoutes() {
 	// Method GET
 	provinces.Get("/", r.provinceValidate.ValidateGetProvincesRequest, r.provinceHandler.GetProvinces)
 
-	// Method POST
-	provinces.Post("/import", r.provinceValidate.ValidateImportProvincesRequest, r.provinceHandler.ImportProvinces)
 }
