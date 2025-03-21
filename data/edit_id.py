@@ -11,7 +11,7 @@ with open('data/districts.json', 'r', encoding='utf-8') as file:
 with open('data/sub_districts.json', 'r', encoding='utf-8') as file:
     sub_districts = json.load(file)
 
-with open('data/permission.json', 'r', encoding='utf-8') as file:
+with open('data/permissions.json', 'r', encoding='utf-8') as file:
     permissions = json.load(file)
 
 with open('data/roles.json', 'r', encoding='utf-8') as file:
@@ -92,7 +92,7 @@ with open('data/districts.json', 'w', encoding='utf-8') as file:
 with open('data/sub_districts.json', 'w', encoding='utf-8') as file:
     json.dump(sub_districts, file, ensure_ascii=False, indent=2)
 
-with open('data/permission.json', 'w', encoding='utf-8') as file:
+with open('data/permissions.json', 'w', encoding='utf-8') as file:
     json.dump(permissions, file, ensure_ascii=False, indent=2)
 
 with open('data/roles.json', 'w', encoding='utf-8') as file:
