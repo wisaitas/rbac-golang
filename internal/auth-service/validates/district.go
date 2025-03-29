@@ -2,6 +2,7 @@ package validates
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/wisaitas/rbac-golang/internal/auth-service/dtos/queries"
 	"github.com/wisaitas/rbac-golang/pkg"
 )
 
@@ -13,7 +14,7 @@ func NewDistrictValidate() *DistrictValidate {
 }
 
 func (r *DistrictValidate) ValidateGetDistrictsRequest(c *fiber.Ctx) error {
-	query := pkg.PaginationQuery{}
+	query := queries.DistrictQuery{}
 
 	if err := validateCommonPaginationQuery(c, &query); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(pkg.ErrorResponse{

@@ -21,14 +21,21 @@ func (r *LoginResponse) ToResponse(accessToken, refreshToken string) LoginRespon
 
 type RegisterResponse struct {
 	pkg.BaseResponse
-	Username  string    `json:"username"`
-	FirstName string    `json:"first_name"`
-	LastName  string    `json:"last_name"`
-	BirthDate time.Time `json:"birth_date"`
-	Email     string    `json:"email"`
+	Username  string            `json:"username"`
+	FirstName string            `json:"first_name"`
+	LastName  string            `json:"last_name"`
+	BirthDate time.Time         `json:"birth_date"`
+	Email     string            `json:"email"`
+	Addresses []AddressResponse `json:"addresses"`
 }
 
-func (r *RegisterResponse) ToResponse(user models.User) RegisterResponse {
+func (r *RegisterResponse) ModelToResponse(user models.User) RegisterResponse {
+	for _, address := range user.Addresses {
+		addressResponse := AddressResponse{}
+		addressResponse.ModelToResponse(address)
+		r.Addresses = append(r.Addresses, addressResponse)
+	}
+
 	r.ID = user.ID
 	r.CreatedAt = user.CreatedAt
 	r.UpdatedAt = user.UpdatedAt

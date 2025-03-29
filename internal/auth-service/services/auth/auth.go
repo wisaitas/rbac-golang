@@ -111,7 +111,7 @@ func (r *authService) Register(req requests.RegisterRequest) (resp responses.Reg
 		return resp, http.StatusInternalServerError, pkg.Error(err)
 	}
 
-	return resp.ToResponse(user), http.StatusCreated, pkg.Error(err)
+	return resp.ModelToResponse(user), http.StatusCreated, pkg.Error(err)
 }
 
 func (r *authService) Logout(userContext models.UserContext) (statusCode int, err error) {

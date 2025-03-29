@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/wisaitas/rbac-golang/internal/auth-service/models"
+	"github.com/wisaitas/rbac-golang/internal/auth-service/scripts"
 	"github.com/wisaitas/rbac-golang/pkg"
 
 	"gorm.io/driver/postgres"
@@ -34,9 +35,19 @@ func ConnectDB() *gorm.DB {
 		log.Fatalf("failed to migrate database: %v", err)
 	}
 
-	if err := autoSeed(db); err != nil {
+	if err := scripts.SeedData(db, scripts.Path{
+		ProvincePath:       ENV.PROVINCE_FILE_PATH,
+		DistrictPath:       ENV.DISTRICT_FILE_PATH,
+		SubDistrictPath:    ENV.SUB_DISTRICT_FILE_PATH,
+		PermissionPath:     ENV.PERMISSION_FILE_PATH,
+		RolePath:           ENV.ROLE_FILE_PATH,
+		RolePermissionPath: ENV.ROLE_PERMISSION_FILE_PATH,
+		UserPath:           ENV.USER_FILE_PATH,
+		UserRolePath:       ENV.USER_ROLE_FILE_PATH,
+	}); err != nil {
 		log.Fatalf("failed to seed database: %v", err)
 	}
+
 	return db
 }
 

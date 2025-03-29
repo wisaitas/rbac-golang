@@ -3,134 +3,131 @@ package scripts
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/google/uuid"
 )
 
-// Structs to match your JSON structure
 type Province struct {
-	ID          int    `json:"id"`
-	UUID        string `json:"uuid"`
-	NameTH      string `json:"name_th"`
-	NameEN      string `json:"name_en"`
-	GeographyID int    `json:"geography_id"`
-	CreatedAt   string `json:"created_at"`
-	UpdatedAt   string `json:"updated_at"`
-	DeletedAt   any    `json:"deleted_at"`
+	ID          int       `json:"id"`
+	UUID        uuid.UUID `json:"uuid"`
+	NameTH      string    `json:"name_th"`
+	NameEN      string    `json:"name_en"`
+	GeographyID int       `json:"geography_id"`
+	CreatedAt   string    `json:"created_at"`
+	UpdatedAt   string    `json:"updated_at"`
+	DeletedAt   any       `json:"deleted_at"`
 }
 
 type District struct {
-	ID           int    `json:"id"`
-	UUID         string `json:"uuid"`
-	ProvinceID   int    `json:"province_id"`
-	ProvinceUUID string `json:"province_uuid,omitempty"`
-	NameTH       string `json:"name_th"`
-	NameEN       string `json:"name_en"`
-	CreatedAt    string `json:"created_at"`
-	UpdatedAt    string `json:"updated_at"`
-	DeletedAt    any    `json:"deleted_at"`
+	ID           int       `json:"id"`
+	UUID         uuid.UUID `json:"uuid"`
+	ProvinceID   int       `json:"province_id"`
+	ProvinceUUID uuid.UUID `json:"province_uuid,omitempty"`
+	NameTH       string    `json:"name_th"`
+	NameEN       string    `json:"name_en"`
+	CreatedAt    string    `json:"created_at"`
+	UpdatedAt    string    `json:"updated_at"`
+	DeletedAt    any       `json:"deleted_at"`
 }
 
 type SubDistrict struct {
-	ID           int    `json:"id"`
-	UUID         string `json:"uuid"`
-	DistrictID   int    `json:"district_id"`
-	DistrictUUID string `json:"district_uuid,omitempty"`
-	ZipCode      int    `json:"zip_code"`
-	NameTH       string `json:"name_th"`
-	NameEN       string `json:"name_en"`
-	CreatedAt    string `json:"created_at"`
-	UpdatedAt    string `json:"updated_at"`
-	DeletedAt    any    `json:"deleted_at"`
+	ID           int       `json:"id"`
+	UUID         uuid.UUID `json:"uuid"`
+	DistrictID   int       `json:"district_id"`
+	DistrictUUID uuid.UUID `json:"district_uuid,omitempty"`
+	ZipCode      int       `json:"zip_code"`
+	NameTH       string    `json:"name_th"`
+	NameEN       string    `json:"name_en"`
+	CreatedAt    string    `json:"created_at"`
+	UpdatedAt    string    `json:"updated_at"`
+	DeletedAt    any       `json:"deleted_at"`
 }
 
 type Role struct {
-	ID          string `json:"id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	ID          uuid.UUID `json:"id"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
 }
 
 type Permission struct {
-	ID          string `json:"id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	ID          uuid.UUID `json:"id"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
 }
 
 type User struct {
-	ID        string `json:"id"`
-	Username  string `json:"username"`
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
-	BirthDate string `json:"birth_date"`
-	Email     string `json:"email"`
-	Password  string `json:"password"`
+	ID        uuid.UUID `json:"id"`
+	Username  string    `json:"username"`
+	FirstName string    `json:"first_name"`
+	LastName  string    `json:"last_name"`
+	BirthDate string    `json:"birth_date"`
+	Email     string    `json:"email"`
+	Password  string    `json:"password"`
 }
 
 type RolePermission struct {
-	RoleID       string `json:"role_id"`
-	PermissionID string `json:"permission_id"`
+	RoleID       uuid.UUID `json:"role_id"`
+	PermissionID uuid.UUID `json:"permission_id"`
 }
 
 type UserRole struct {
-	UserID string `json:"user_id"`
-	RoleID string `json:"role_id"`
+	UserID uuid.UUID `json:"user_id"`
+	RoleID uuid.UUID `json:"role_id"`
 }
 
-func main() {
-	// Read JSON files
-	provinces := readProvinces("data/provinces.json")
-	districts := readDistricts("data/districts.json")
-	subDistricts := readSubDistricts("data/sub_districts.json")
-	permissions := readPermissions("data/permissions.json")
-	roles := readRoles("data/roles.json")
-	users := readUsers("data/users.json")
+func GenerateSeedID(path Path) {
+	provinces := readProvinces(path.ProvincePath)
+	districts := readDistricts(path.DistrictPath)
+	subDistricts := readSubDistricts(path.SubDistrictPath)
+	permissions := readPermissions(path.PermissionPath)
+	roles := readRoles(path.RolePath)
+	users := readUsers(path.UserPath)
 
-	// Update provinces with UUIDs
-	provinceIDToUUID := make(map[int]string)
+	for _, province := range provinces {
+		if province.UUID != uuid.Nil {
+			return
+		}
+	}
+
+	provinceIDToUUID := make(map[int]uuid.UUID)
 	for i := range provinces {
-		provinces[i].UUID = uuid.New().String()
+		provinces[i].UUID = uuid.New()
 		provinceIDToUUID[provinces[i].ID] = provinces[i].UUID
 	}
 
-	// Update districts with UUIDs and add province_uuid references
-	districtIDToUUID := make(map[int]string)
+	districtIDToUUID := make(map[int]uuid.UUID)
 	for i := range districts {
-		districts[i].UUID = uuid.New().String()
+		districts[i].UUID = uuid.New()
 		districts[i].ProvinceUUID = provinceIDToUUID[districts[i].ProvinceID]
 		districtIDToUUID[districts[i].ID] = districts[i].UUID
 	}
 
-	// Update sub_districts with UUIDs and add district_uuid references
 	for i := range subDistricts {
-		subDistricts[i].UUID = uuid.New().String()
+		subDistricts[i].UUID = uuid.New()
 		subDistricts[i].DistrictUUID = districtIDToUUID[subDistricts[i].DistrictID]
 	}
 
-	// Update roles with UUIDs
 	for i := range roles {
-		roles[i].ID = uuid.New().String()
+		roles[i].ID = uuid.New()
 	}
 
-	// Update permissions with UUIDs
 	for i := range permissions {
-		permissions[i].ID = uuid.New().String()
+		permissions[i].ID = uuid.New()
 	}
 
-	// Update users with UUIDs
 	for i := range users {
-		users[i].ID = uuid.New().String()
+		users[i].ID = uuid.New()
 	}
 
-	// Create roles-permissions relationship
 	rolesPermissions := []RolePermission{}
-	permissionNameToID := make(map[string]string)
+	permissionNameToID := make(map[string]uuid.UUID)
 	for _, permission := range permissions {
 		permissionNameToID[permission.Name] = permission.ID
 	}
 
-	// Find admin role ID
-	var adminRoleID string
+	var adminRoleID uuid.UUID
 	for _, role := range roles {
 		if role.Name == "admin" {
 			adminRoleID = role.ID
@@ -138,7 +135,6 @@ func main() {
 		}
 	}
 
-	// Assign all permissions to admin role
 	for _, permission := range permissions {
 		rolesPermissions = append(rolesPermissions, RolePermission{
 			RoleID:       adminRoleID,
@@ -146,9 +142,8 @@ func main() {
 		})
 	}
 
-	// Create users-roles relationship
 	usersRoles := []UserRole{}
-	var adminUserID string
+	var adminUserID uuid.UUID
 	for _, user := range users {
 		if user.Username == "admin" {
 			adminUserID = user.ID
@@ -156,26 +151,23 @@ func main() {
 		}
 	}
 
-	// Assign admin role to admin user
 	usersRoles = append(usersRoles, UserRole{
 		UserID: adminUserID,
 		RoleID: adminRoleID,
 	})
 
-	// Write back to files
-	writeToFile("data/provinces.json", provinces)
-	writeToFile("data/districts.json", districts)
-	writeToFile("data/sub_districts.json", subDistricts)
-	writeToFile("data/permissions.json", permissions)
-	writeToFile("data/roles.json", roles)
-	writeToFile("data/users.json", users)
-	writeToFile("data/roles_permissions.json", rolesPermissions)
-	writeToFile("data/users-roles.json", usersRoles)
+	writeToFile(path.ProvincePath, provinces)
+	writeToFile(path.DistrictPath, districts)
+	writeToFile(path.SubDistrictPath, subDistricts)
+	writeToFile(path.PermissionPath, permissions)
+	writeToFile(path.RolePath, roles)
+	writeToFile(path.UserPath, users)
+	writeToFile(path.RolePermissionPath, rolesPermissions)
+	writeToFile(path.UserRolePath, usersRoles)
 
-	fmt.Println("Edit ID Successfully")
+	log.Println("generate seed ID successfully")
 }
 
-// Helper functions to read JSON files
 func readProvinces(filename string) []Province {
 	data, err := os.ReadFile(filename)
 	if err != nil {
@@ -260,7 +252,6 @@ func readUsers(filename string) []User {
 	return users
 }
 
-// Helper function to write JSON to file
 func writeToFile(filename string, data interface{}) {
 	jsonData, err := json.MarshalIndent(data, "", "  ")
 	if err != nil {

@@ -1,4 +1,4 @@
-package configs
+package scripts
 
 import (
 	"encoding/json"
@@ -16,36 +16,38 @@ import (
 	"gorm.io/gorm"
 )
 
-func autoSeed(db *gorm.DB) error {
-	if err := seedProvinces(db); err != nil {
+func SeedData(db *gorm.DB, path Path) error {
+	GenerateSeedID(path)
+
+	if err := seedProvinces(db, path); err != nil {
 		return pkg.Error(err)
 	}
 
-	if err := seedDistricts(db); err != nil {
+	if err := seedDistricts(db, path); err != nil {
 		return pkg.Error(err)
 	}
 
-	if err := seedSubDistricts(db); err != nil {
+	if err := seedSubDistricts(db, path); err != nil {
 		return pkg.Error(err)
 	}
 
-	if err := seedPermissions(db); err != nil {
+	if err := seedPermissions(db, path); err != nil {
 		return pkg.Error(err)
 	}
 
-	if err := seedRoles(db); err != nil {
+	if err := seedRoles(db, path); err != nil {
 		return pkg.Error(err)
 	}
 
-	if err := seedRolePermissions(db); err != nil {
+	if err := seedRolePermissions(db, path); err != nil {
 		return pkg.Error(err)
 	}
 
-	if err := seedUsers(db); err != nil {
+	if err := seedUsers(db, path); err != nil {
 		return pkg.Error(err)
 	}
 
-	if err := seedUserRoles(db); err != nil {
+	if err := seedUserRoles(db, path); err != nil {
 		return pkg.Error(err)
 	}
 
@@ -69,14 +71,14 @@ func (r *provinceData) ToModel() models.Province {
 	}
 }
 
-func seedProvinces(db *gorm.DB) error {
+func seedProvinces(db *gorm.DB, path Path) error {
 	var count int64
 	if err := db.Model(&models.Province{}).Count(&count).Error; err != nil {
 		return pkg.Error(err)
 	}
 
 	if count == 0 {
-		file, err := os.Open(ENV.PROVINCE_FILE_PATH)
+		file, err := os.Open(path.ProvincePath)
 		if err != nil {
 			return pkg.Error(err)
 		}
@@ -122,14 +124,14 @@ func (r *districtData) ToModel() models.District {
 	}
 }
 
-func seedDistricts(db *gorm.DB) error {
+func seedDistricts(db *gorm.DB, path Path) error {
 	var count int64
 	if err := db.Model(&models.District{}).Count(&count).Error; err != nil {
 		return pkg.Error(err)
 	}
 
 	if count == 0 {
-		file, err := os.Open(ENV.DISTRICT_FILE_PATH)
+		file, err := os.Open(path.DistrictPath)
 		if err != nil {
 			return pkg.Error(err)
 		}
@@ -177,14 +179,14 @@ func (r *subDistrictData) ToModel() models.SubDistrict {
 	}
 }
 
-func seedSubDistricts(db *gorm.DB) error {
+func seedSubDistricts(db *gorm.DB, path Path) error {
 	var count int64
 	if err := db.Model(&models.SubDistrict{}).Count(&count).Error; err != nil {
 		return pkg.Error(err)
 	}
 
 	if count == 0 {
-		file, err := os.Open(ENV.SUB_DISTRICT_FILE_PATH)
+		file, err := os.Open(path.SubDistrictPath)
 		if err != nil {
 			return pkg.Error(err)
 		}
@@ -227,14 +229,14 @@ func (r *permissionData) ToModel() models.Permission {
 	}
 }
 
-func seedPermissions(db *gorm.DB) error {
+func seedPermissions(db *gorm.DB, path Path) error {
 	var count int64
 	if err := db.Model(&models.Permission{}).Count(&count).Error; err != nil {
 		return pkg.Error(err)
 	}
 
 	if count == 0 {
-		file, err := os.Open(ENV.PERMISSION_FILE_PATH)
+		file, err := os.Open(path.PermissionPath)
 		if err != nil {
 			return pkg.Error(err)
 		}
@@ -277,14 +279,14 @@ func (r *roleData) ToModel() models.Role {
 	}
 }
 
-func seedRoles(db *gorm.DB) error {
+func seedRoles(db *gorm.DB, path Path) error {
 	var count int64
 	if err := db.Model(&models.Role{}).Count(&count).Error; err != nil {
 		return pkg.Error(err)
 	}
 
 	if count == 0 {
-		file, err := os.Open(ENV.ROLE_FILE_PATH)
+		file, err := os.Open(path.RolePath)
 		if err != nil {
 			return pkg.Error(err)
 		}
@@ -322,14 +324,14 @@ func (r *rolePermissionData) ToModel() models.RolePermission {
 	}
 }
 
-func seedRolePermissions(db *gorm.DB) error {
+func seedRolePermissions(db *gorm.DB, path Path) error {
 	var count int64
 	if err := db.Model(&models.RolePermission{}).Count(&count).Error; err != nil {
 		return pkg.Error(err)
 	}
 
 	if count == 0 {
-		file, err := os.Open(ENV.ROLE_PERMISSION_FILE_PATH)
+		file, err := os.Open(path.RolePermissionPath)
 		if err != nil {
 			return pkg.Error(err)
 		}
@@ -378,14 +380,14 @@ func (r *userData) ToModel() models.User {
 	}
 }
 
-func seedUsers(db *gorm.DB) error {
+func seedUsers(db *gorm.DB, path Path) error {
 	var count int64
 	if err := db.Model(&models.User{}).Count(&count).Error; err != nil {
 		return pkg.Error(err)
 	}
 
 	if count == 0 {
-		file, err := os.Open(ENV.USER_FILE_PATH)
+		file, err := os.Open(path.UserPath)
 		if err != nil {
 			return pkg.Error(err)
 		}
@@ -429,14 +431,14 @@ func (r *userRoleData) ToModel() models.UserRole {
 	}
 }
 
-func seedUserRoles(db *gorm.DB) error {
+func seedUserRoles(db *gorm.DB, path Path) error {
 	var count int64
 	if err := db.Model(&models.UserRole{}).Count(&count).Error; err != nil {
 		return pkg.Error(err)
 	}
 
 	if count == 0 {
-		file, err := os.Open(ENV.USER_ROLE_FILE_PATH)
+		file, err := os.Open(path.UserRolePath)
 		if err != nil {
 			return pkg.Error(err)
 		}

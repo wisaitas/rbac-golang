@@ -17,14 +17,14 @@ type Environment struct {
 	REDIS_HOST                string `env:"REDIS_HOST" envDefault:"localhost"`
 	REDIS_PORT                string `env:"REDIS_PORT" envDefault:"8081"`
 	MAX_FILE_SIZE             int64  `env:"MAX_FILE_SIZE" envDefault:"5"`
-	DISTRICT_FILE_PATH        string `env:"DISTRICT_FILE_PATH" envDefault:"./data/districts.json"`
-	SUB_DISTRICT_FILE_PATH    string `env:"SUB_DISTRICT_FILE_PATH" envDefault:"./data/sub_districts.json"`
-	PROVINCE_FILE_PATH        string `env:"PROVINCE_FILE_PATH" envDefault:"./data/provinces.json"`
-	PERMISSION_FILE_PATH      string `env:"PERMISSION_FILE_PATH" envDefault:"./data/permission.json"`
-	ROLE_FILE_PATH            string `env:"ROLE_FILE_PATH" envDefault:"./data/roles.json"`
-	ROLE_PERMISSION_FILE_PATH string `env:"ROLE_PERMISSION_FILE_PATH" envDefault:"./data/roles_permissions.json"`
-	USER_FILE_PATH            string `env:"USER_FILE_PATH" envDefault:"./data/users.json"`
-	USER_ROLE_FILE_PATH       string `env:"USER_ROLE_FILE_PATH" envDefault:"./data/users-roles.json"`
+	DISTRICT_FILE_PATH        string `env:"DISTRICT_FILE_PATH" envDefault:"data/districts.json"`
+	SUB_DISTRICT_FILE_PATH    string `env:"SUB_DISTRICT_FILE_PATH" envDefault:"data/sub_districts.json"`
+	PROVINCE_FILE_PATH        string `env:"PROVINCE_FILE_PATH" envDefault:"data/provinces.json"`
+	PERMISSION_FILE_PATH      string `env:"PERMISSION_FILE_PATH" envDefault:"data/permissions.json"`
+	ROLE_FILE_PATH            string `env:"ROLE_FILE_PATH" envDefault:"data/roles.json"`
+	ROLE_PERMISSION_FILE_PATH string `env:"ROLE_PERMISSION_FILE_PATH" envDefault:"data/roles_permissions.json"`
+	USER_FILE_PATH            string `env:"USER_FILE_PATH" envDefault:"data/users.json"`
+	USER_ROLE_FILE_PATH       string `env:"USER_ROLE_FILE_PATH" envDefault:"data/users-roles.json"`
 }
 
 var ENV Environment
