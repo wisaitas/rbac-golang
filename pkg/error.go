@@ -1,7 +1,7 @@
 package pkg
 
 import (
-	"log"
+	"fmt"
 	"runtime"
 )
 
@@ -21,7 +21,7 @@ func Error(err error) error {
 		funcName = fn.Name()
 	}
 
-	log.Printf("error: {\"message\": \"%s\", \"file\": \"%s:%d\", \"func\": \"%s\"}\n", err.Error(), file, line, funcName)
+	fmt.Printf("error: {\"message\": \"%s\", \"file\": \"%s:%d\", \"func\": \"%s\"}\n", err.Error(), file, line, funcName)
 
 	return err
 }

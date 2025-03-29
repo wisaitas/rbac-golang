@@ -29,18 +29,21 @@ type AuthService interface {
 type authService struct {
 	userRepository        repositories.UserRepository
 	userHistoryRepository repositories.UserHistoryRepository
-	redis                 pkg.RedisClient
+	redis                 pkg.RedisUtil
+	jwtUtil               pkg.JWTUtil
 }
 
 func NewAuthService(
 	userRepository repositories.UserRepository,
 	userHistoryRepository repositories.UserHistoryRepository,
-	redis pkg.RedisClient,
+	redis pkg.RedisUtil,
+	jwtUtil pkg.JWTUtil,
 ) AuthService {
 	return &authService{
 		userRepository:        userRepository,
 		userHistoryRepository: userHistoryRepository,
 		redis:                 redis,
+		jwtUtil:               jwtUtil,
 	}
 }
 

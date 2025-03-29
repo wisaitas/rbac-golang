@@ -7,7 +7,6 @@ import (
 	provinceService "github.com/wisaitas/rbac-golang/internal/auth-service/services/province"
 	subDistrictService "github.com/wisaitas/rbac-golang/internal/auth-service/services/sub-district"
 	userService "github.com/wisaitas/rbac-golang/internal/auth-service/services/user"
-	"github.com/wisaitas/rbac-golang/pkg"
 )
 
 type Services struct {
@@ -19,30 +18,35 @@ type Services struct {
 	PermissionService  permissionService.PermissionService
 }
 
-func initializeServices(repos *Repositories, redisClient pkg.RedisClient) *Services {
+func initializeServices(repos *Repositories, utils *Utils) *Services {
 	return &Services{
 		UserService: userService.NewUserService(
-			userService.NewRead(repos.UserRepository, redisClient),
-			userService.NewCreate(repos.UserRepository, redisClient),
-			userService.NewUpdate(repos.UserRepository, repos.UserHistoryRepository, redisClient),
-			userService.NewDelete(repos.UserRepository, redisClient),
-			userService.NewTransaction(repos.UserRepository, redisClient),
+			userService.NewRead(repos.UserRepository, utils.RedisUtil),
+			userService.NewCreate(repos.UserRepository, utils.RedisUtil),
+			userService.NewUpdate(repos.UserRepository, repos.UserHistoryRepository, utils.RedisUtil),
+			userService.NewDelete(repos.UserRepository, utils.RedisUtil),
+			userService.NewTransaction(repos.UserRepository, utils.RedisUtil),
 		),
-		AuthService: authService.NewAuthService(repos.UserRepository, repos.UserHistoryRepository, redisClient),
+		AuthService: authService.NewAuthService(
+			repos.UserRepository,
+			repos.UserHistoryRepository,
+			utils.RedisUtil,
+			utils.JWTUtil,
+		),
 		ProvinceService: provinceService.NewProvinceService(
-			provinceService.NewRead(repos.ProvinceRepository, redisClient),
-			provinceService.NewCreate(repos.ProvinceRepository, redisClient),
+			provinceService.NewRead(repos.ProvinceRepository, utils.RedisUtil),
+			provinceService.NewCreate(repos.ProvinceRepository, utils.RedisUtil),
 		),
 		DistrictService: districtService.NewDistrictService(
-			districtService.NewRead(repos.DistrictRepository, redisClient),
-			districtService.NewCreate(repos.DistrictRepository, redisClient),
+			districtService.NewRead(repos.DistrictRepository, utils.RedisUtil),
+			districtService.NewCreate(repos.DistrictRepository, utils.RedisUtil),
 		),
 		SubDistrictService: subDistrictService.NewSubDistrictService(
-			subDistrictService.NewRead(repos.SubDistrictRepository, redisClient),
-			subDistrictService.NewCreate(repos.SubDistrictRepository, redisClient),
+			subDistrictService.NewRead(repos.SubDistrictRepository, utils.RedisUtil),
+			subDistrictService.NewCreate(repos.SubDistrictRepository, utils.RedisUtil),
 		),
 		PermissionService: permissionService.NewPermissionService(
-			permissionService.NewCreate(repos.PermissionRepository, redisClient),
+			permissionService.NewCreate(repos.PermissionRepository, utils.RedisUtil),
 		),
 	}
 }

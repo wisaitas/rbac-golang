@@ -29,13 +29,13 @@ func InitializeApp() *App {
 
 	configs := initializeConfigs()
 
-	redisUtils := pkg.NewRedisClient(configs.Redis)
+	utils := initializeUtils(configs)
 
 	repositories := initializeRepositories(configs.DB)
-	services := initializeServices(repositories, redisUtils)
+	services := initializeServices(repositories, utils)
 	handlers := initializeHandlers(services)
 	validates := initializeValidates()
-	middlewares := initializeMiddlewares(redisUtils)
+	middlewares := initializeMiddlewares(utils)
 
 	apiRoutes := app.Group("/api/v1")
 	appRoutes := initializeRoutes(apiRoutes, handlers, validates, middlewares)
