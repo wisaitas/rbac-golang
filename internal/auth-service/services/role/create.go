@@ -14,12 +14,12 @@ type Create interface {
 
 type create struct {
 	roleRepository repositories.RoleRepository
-	redisUtil      pkg.RedisClient
+	redisUtil      pkg.RedisUtil
 }
 
 func NewCreate(
 	roleRepository repositories.RoleRepository,
-	redisUtil pkg.RedisClient,
+	redisUtil pkg.RedisUtil,
 ) Create {
 	return &create{
 		roleRepository: roleRepository,

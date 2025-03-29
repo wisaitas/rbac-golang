@@ -8,7 +8,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/wisaitas/rbac-golang/internal/auth-service/constants"
 	"github.com/wisaitas/rbac-golang/internal/auth-service/dtos/requests"
 	"github.com/wisaitas/rbac-golang/internal/auth-service/dtos/responses"
 	"github.com/wisaitas/rbac-golang/internal/auth-service/models"
@@ -104,34 +103,11 @@ func (r *authService) Register(req requests.RegisterRequest) (resp responses.Reg
 
 	user.Password = string(hashedPassword)
 
-	tx := r.userRepository.BeginTx()
-
-	if err = tx.Create(&user).Error; err != nil {
+	if err = r.userRepository.Create(&user); err != nil {
 		if strings.Contains(err.Error(), "unique constraint") {
-			tx.Rollback()
 			return resp, http.StatusBadRequest, pkg.Error(errors.New("username already exists"))
 		}
 
-		tx.Rollback()
-		return resp, http.StatusInternalServerError, pkg.Error(err)
-	}
-
-	if err := tx.Create(
-		&models.UserHistory{
-			Action:      constants.Action.Create,
-			UserID:      user.ID,
-			FirstName:   user.FirstName,
-			LastName:    user.LastName,
-			BirthDate:   user.BirthDate,
-			UserVersion: user.Version,
-		},
-	).Error; err != nil {
-		tx.Rollback()
-		return resp, http.StatusInternalServerError, pkg.Error(err)
-	}
-
-	if err := tx.Commit().Error; err != nil {
-		tx.Rollback()
 		return resp, http.StatusInternalServerError, pkg.Error(err)
 	}
 

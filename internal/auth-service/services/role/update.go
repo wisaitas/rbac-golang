@@ -13,16 +13,16 @@ type Update interface {
 
 type update struct {
 	roleRepository repositories.RoleRepository
-	redisClient    *pkg.RedisClient
+	redisUtil      pkg.RedisUtil
 }
 
 func NewUpdate(
 	roleRepository repositories.RoleRepository,
-	redisClient *pkg.RedisClient,
+	redisUtil pkg.RedisUtil,
 ) Update {
 	return &update{
 		roleRepository: roleRepository,
-		redisClient:    redisClient,
+		redisUtil:      redisUtil,
 	}
 }
 

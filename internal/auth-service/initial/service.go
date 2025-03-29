@@ -23,7 +23,7 @@ func initializeServices(repos *Repositories, utils *Utils) *Services {
 		UserService: userService.NewUserService(
 			userService.NewRead(repos.UserRepository, utils.RedisUtil),
 			userService.NewCreate(repos.UserRepository, utils.RedisUtil),
-			userService.NewUpdate(repos.UserRepository, repos.UserHistoryRepository, utils.RedisUtil),
+			userService.NewUpdate(repos.UserRepository, repos.UserHistoryRepository, utils.RedisUtil, utils.TransactionUtil),
 			userService.NewDelete(repos.UserRepository, utils.RedisUtil),
 			userService.NewTransaction(repos.UserRepository, utils.RedisUtil),
 		),

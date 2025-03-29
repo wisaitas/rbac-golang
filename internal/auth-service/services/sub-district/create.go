@@ -10,15 +10,15 @@ type Create interface {
 
 type create struct {
 	subDistrictRepository repositories.SubDistrictRepository
-	redisClient           pkg.RedisClient
+	redisUtil             pkg.RedisUtil
 }
 
 func NewCreate(
 	subDistrictRepository repositories.SubDistrictRepository,
-	redisClient pkg.RedisClient,
+	redisUtil pkg.RedisUtil,
 ) Create {
 	return &create{
 		subDistrictRepository: subDistrictRepository,
-		redisClient:           redisClient,
+		redisUtil:             redisUtil,
 	}
 }
