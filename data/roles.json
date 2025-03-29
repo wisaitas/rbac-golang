@@ -1,7 +1,17 @@
 [
   {
-    "id": "12bdc13d-5abb-43a3-ac98-b1c4411a62d4",
-    "name": "admin",
+    "id": "d2f04f62-4d62-40d3-9fdf-3728730d9cc6",
+    "name": "Admin",
     "description": "Admin role"
+  },
+  {
+    "id": "3b68fa1a-2a85-43f0-80fd-b07438a36965",
+    "name": "Manager",
+    "description": "Manager role"
+  },
+  {
+    "id": "230a6a84-2db8-4dd1-a0ad-aa94206af90c",
+    "name": "User",
+    "description": "User role"
   }
 ]

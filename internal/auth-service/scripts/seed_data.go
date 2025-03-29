@@ -17,41 +17,49 @@ import (
 )
 
 func SeedData(db *gorm.DB, path Path) error {
-	GenerateSeedID(path)
-
-	if err := seedProvinces(db, path); err != nil {
+	var count int64
+	if err := db.Model(&models.Province{}).Count(&count).Error; err != nil {
 		return pkg.Error(err)
 	}
 
-	if err := seedDistricts(db, path); err != nil {
-		return pkg.Error(err)
+	if count == 0 {
+		generateSeedID(path)
+
+		if err := seedProvinces(db, path); err != nil {
+			return pkg.Error(err)
+		}
+
+		if err := seedDistricts(db, path); err != nil {
+			return pkg.Error(err)
+		}
+
+		if err := seedSubDistricts(db, path); err != nil {
+			return pkg.Error(err)
+		}
+
+		if err := seedPermissions(db, path); err != nil {
+			return pkg.Error(err)
+		}
+
+		if err := seedRoles(db, path); err != nil {
+			return pkg.Error(err)
+		}
+
+		if err := seedRolePermissions(db, path); err != nil {
+			return pkg.Error(err)
+		}
+
+		if err := seedUsers(db, path); err != nil {
+			return pkg.Error(err)
+		}
+
+		if err := seedUserRoles(db, path); err != nil {
+			return pkg.Error(err)
+		}
+
+		log.Println("database seeded successfully")
 	}
 
-	if err := seedSubDistricts(db, path); err != nil {
-		return pkg.Error(err)
-	}
-
-	if err := seedPermissions(db, path); err != nil {
-		return pkg.Error(err)
-	}
-
-	if err := seedRoles(db, path); err != nil {
-		return pkg.Error(err)
-	}
-
-	if err := seedRolePermissions(db, path); err != nil {
-		return pkg.Error(err)
-	}
-
-	if err := seedUsers(db, path); err != nil {
-		return pkg.Error(err)
-	}
-
-	if err := seedUserRoles(db, path); err != nil {
-		return pkg.Error(err)
-	}
-
-	log.Println("database seeded successfully")
 	return nil
 }
 

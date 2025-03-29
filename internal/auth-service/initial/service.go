@@ -5,6 +5,7 @@ import (
 	districtService "github.com/wisaitas/rbac-golang/internal/auth-service/services/district"
 	permissionService "github.com/wisaitas/rbac-golang/internal/auth-service/services/permission"
 	provinceService "github.com/wisaitas/rbac-golang/internal/auth-service/services/province"
+	roleService "github.com/wisaitas/rbac-golang/internal/auth-service/services/role"
 	subDistrictService "github.com/wisaitas/rbac-golang/internal/auth-service/services/sub-district"
 	userService "github.com/wisaitas/rbac-golang/internal/auth-service/services/user"
 )
@@ -16,6 +17,7 @@ type Services struct {
 	DistrictService    districtService.DistrictService
 	SubDistrictService subDistrictService.SubDistrictService
 	PermissionService  permissionService.PermissionService
+	RoleService        roleService.RoleService
 }
 
 func initializeServices(repos *Repositories, utils *Utils) *Services {
@@ -47,6 +49,10 @@ func initializeServices(repos *Repositories, utils *Utils) *Services {
 		),
 		PermissionService: permissionService.NewPermissionService(
 			permissionService.NewCreate(repos.PermissionRepository, utils.RedisUtil),
+		),
+		RoleService: roleService.NewRoleService(
+			roleService.NewCreate(repos.RoleRepository, utils.RedisUtil),
+			roleService.NewRead(repos.RoleRepository, utils.RedisUtil),
 		),
 	}
 }

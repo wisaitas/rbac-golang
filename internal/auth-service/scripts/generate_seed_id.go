@@ -10,74 +10,74 @@ import (
 )
 
 type Province struct {
-	ID          int       `json:"id"`
-	UUID        uuid.UUID `json:"uuid"`
-	NameTH      string    `json:"name_th"`
-	NameEN      string    `json:"name_en"`
-	GeographyID int       `json:"geography_id"`
-	CreatedAt   string    `json:"created_at"`
-	UpdatedAt   string    `json:"updated_at"`
-	DeletedAt   any       `json:"deleted_at"`
+	ID          int    `json:"id"`
+	UUID        string `json:"uuid"`
+	NameTH      string `json:"name_th"`
+	NameEN      string `json:"name_en"`
+	GeographyID int    `json:"geography_id"`
+	CreatedAt   string `json:"created_at"`
+	UpdatedAt   string `json:"updated_at"`
+	DeletedAt   any    `json:"deleted_at"`
 }
 
 type District struct {
-	ID           int       `json:"id"`
-	UUID         uuid.UUID `json:"uuid"`
-	ProvinceID   int       `json:"province_id"`
-	ProvinceUUID uuid.UUID `json:"province_uuid,omitempty"`
-	NameTH       string    `json:"name_th"`
-	NameEN       string    `json:"name_en"`
-	CreatedAt    string    `json:"created_at"`
-	UpdatedAt    string    `json:"updated_at"`
-	DeletedAt    any       `json:"deleted_at"`
+	ID           int    `json:"id"`
+	UUID         string `json:"uuid"`
+	ProvinceID   int    `json:"province_id"`
+	ProvinceUUID string `json:"province_uuid,omitempty"`
+	NameTH       string `json:"name_th"`
+	NameEN       string `json:"name_en"`
+	CreatedAt    string `json:"created_at"`
+	UpdatedAt    string `json:"updated_at"`
+	DeletedAt    any    `json:"deleted_at"`
 }
 
 type SubDistrict struct {
-	ID           int       `json:"id"`
-	UUID         uuid.UUID `json:"uuid"`
-	DistrictID   int       `json:"district_id"`
-	DistrictUUID uuid.UUID `json:"district_uuid,omitempty"`
-	ZipCode      int       `json:"zip_code"`
-	NameTH       string    `json:"name_th"`
-	NameEN       string    `json:"name_en"`
-	CreatedAt    string    `json:"created_at"`
-	UpdatedAt    string    `json:"updated_at"`
-	DeletedAt    any       `json:"deleted_at"`
+	ID           int    `json:"id"`
+	UUID         string `json:"uuid"`
+	DistrictID   int    `json:"district_id"`
+	DistrictUUID string `json:"district_uuid,omitempty"`
+	ZipCode      int    `json:"zip_code"`
+	NameTH       string `json:"name_th"`
+	NameEN       string `json:"name_en"`
+	CreatedAt    string `json:"created_at"`
+	UpdatedAt    string `json:"updated_at"`
+	DeletedAt    any    `json:"deleted_at"`
 }
 
 type Role struct {
-	ID          uuid.UUID `json:"id"`
-	Name        string    `json:"name"`
-	Description string    `json:"description"`
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
 }
 
 type Permission struct {
-	ID          uuid.UUID `json:"id"`
-	Name        string    `json:"name"`
-	Description string    `json:"description"`
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
 }
 
 type User struct {
-	ID        uuid.UUID `json:"id"`
-	Username  string    `json:"username"`
-	FirstName string    `json:"first_name"`
-	LastName  string    `json:"last_name"`
-	BirthDate string    `json:"birth_date"`
-	Email     string    `json:"email"`
-	Password  string    `json:"password"`
+	ID        string `json:"id"`
+	Username  string `json:"username"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	BirthDate string `json:"birth_date"`
+	Email     string `json:"email"`
+	Password  string `json:"password"`
 }
 
 type RolePermission struct {
-	RoleID       uuid.UUID `json:"role_id"`
-	PermissionID uuid.UUID `json:"permission_id"`
+	RoleID       string `json:"role_id"`
+	PermissionID string `json:"permission_id"`
 }
 
 type UserRole struct {
-	UserID uuid.UUID `json:"user_id"`
-	RoleID uuid.UUID `json:"role_id"`
+	UserID string `json:"user_id"`
+	RoleID string `json:"role_id"`
 }
 
-func GenerateSeedID(path Path) {
+func generateSeedID(path Path) {
 	provinces := readProvinces(path.ProvincePath)
 	districts := readDistricts(path.DistrictPath)
 	subDistricts := readSubDistricts(path.SubDistrictPath)
@@ -85,49 +85,45 @@ func GenerateSeedID(path Path) {
 	roles := readRoles(path.RolePath)
 	users := readUsers(path.UserPath)
 
-	for _, province := range provinces {
-		if province.UUID != uuid.Nil {
-			return
-		}
-	}
-
-	provinceIDToUUID := make(map[int]uuid.UUID)
+	provinceIDToUUID := make(map[int]string)
 	for i := range provinces {
-		provinces[i].UUID = uuid.New()
+		provinces[i].UUID = uuid.New().String()
 		provinceIDToUUID[provinces[i].ID] = provinces[i].UUID
 	}
 
-	districtIDToUUID := make(map[int]uuid.UUID)
+	districtIDToUUID := make(map[int]string)
 	for i := range districts {
-		districts[i].UUID = uuid.New()
+		districts[i].UUID = uuid.New().String()
 		districts[i].ProvinceUUID = provinceIDToUUID[districts[i].ProvinceID]
 		districtIDToUUID[districts[i].ID] = districts[i].UUID
 	}
 
+	subDistrictIDToUUID := make(map[int]string)
 	for i := range subDistricts {
-		subDistricts[i].UUID = uuid.New()
+		subDistricts[i].UUID = uuid.New().String()
 		subDistricts[i].DistrictUUID = districtIDToUUID[subDistricts[i].DistrictID]
+		subDistrictIDToUUID[subDistricts[i].ID] = subDistricts[i].UUID
 	}
 
 	for i := range roles {
-		roles[i].ID = uuid.New()
+		roles[i].ID = uuid.New().String()
 	}
 
 	for i := range permissions {
-		permissions[i].ID = uuid.New()
+		permissions[i].ID = uuid.New().String()
 	}
 
 	for i := range users {
-		users[i].ID = uuid.New()
+		users[i].ID = uuid.New().String()
 	}
 
 	rolesPermissions := []RolePermission{}
-	permissionNameToID := make(map[string]uuid.UUID)
+	permissionNameToID := make(map[string]string)
 	for _, permission := range permissions {
 		permissionNameToID[permission.Name] = permission.ID
 	}
 
-	var adminRoleID uuid.UUID
+	var adminRoleID string
 	for _, role := range roles {
 		if role.Name == "admin" {
 			adminRoleID = role.ID
@@ -143,7 +139,7 @@ func GenerateSeedID(path Path) {
 	}
 
 	usersRoles := []UserRole{}
-	var adminUserID uuid.UUID
+	var adminUserID string
 	for _, user := range users {
 		if user.Username == "admin" {
 			adminUserID = user.ID

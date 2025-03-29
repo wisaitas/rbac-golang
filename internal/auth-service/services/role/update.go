@@ -8,7 +8,7 @@ import (
 )
 
 type Update interface {
-	SwitchRole() (statusCode int, err error)
+	RotateRole() (statusCode int, err error)
 }
 
 type update struct {
@@ -26,6 +26,6 @@ func NewUpdate(
 	}
 }
 
-func (r *update) SwitchRole() (statusCode int, err error) {
+func (r *update) RotateRole() (statusCode int, err error) {
 	return http.StatusOK, nil
 }

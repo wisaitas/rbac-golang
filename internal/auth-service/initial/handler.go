@@ -11,6 +11,7 @@ type Handlers struct {
 	DistrictHandler    handlers.DistrictHandler
 	SubDistrictHandler handlers.SubDistrictHandler
 	PermissionHandler  handlers.PermissionHandler
+	RoleHandler        handlers.RoleHandler
 }
 
 func initializeHandlers(services *Services) *Handlers {
@@ -21,5 +22,6 @@ func initializeHandlers(services *Services) *Handlers {
 		DistrictHandler:    *handlers.NewDistrictHandler(services.DistrictService),
 		SubDistrictHandler: *handlers.NewSubDistrictHandler(services.SubDistrictService),
 		PermissionHandler:  *handlers.NewPermissionHandler(services.PermissionService),
+		RoleHandler:        *handlers.NewRoleHandler(services.RoleService),
 	}
 }

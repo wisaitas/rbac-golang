@@ -12,6 +12,7 @@ type Routes struct {
 	DistrictRoutes    *routes.DistrictRoutes
 	SubDistrictRoutes *routes.SubDistrictRoutes
 	PermissionRoutes  *routes.PermissionRoutes
+	RoleRoutes        *routes.RoleRoutes
 }
 
 func initializeRoutes(
@@ -54,6 +55,11 @@ func initializeRoutes(
 			&handlers.PermissionHandler,
 			&validates.PermissionValidate,
 		),
+		RoleRoutes: routes.NewRoleRoutes(
+			apiRoutes,
+			&handlers.RoleHandler,
+			&validates.RoleValidate,
+		),
 	}
 }
 
@@ -64,4 +70,5 @@ func (r *Routes) SetupRoutes() {
 	r.DistrictRoutes.DistrictRoutes()
 	r.SubDistrictRoutes.SubDistrictRoutes()
 	r.PermissionRoutes.PermissionRoutes()
+	r.RoleRoutes.RoleRoutes()
 }

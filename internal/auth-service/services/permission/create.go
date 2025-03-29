@@ -10,7 +10,7 @@ import (
 )
 
 type Create interface {
-	CreatePermission(permission requests.CreatePermissionRequest) (resp responses.CreatePermissionResponse, statusCode int, err error)
+	CreatePermission(permission requests.CreatePermissionRequest) (resp responses.PermissionResponse, statusCode int, err error)
 }
 
 type create struct {
@@ -28,6 +28,6 @@ func NewCreate(
 	}
 }
 
-func (s *create) CreatePermission(permission requests.CreatePermissionRequest) (resp responses.CreatePermissionResponse, statusCode int, err error) {
-	return responses.CreatePermissionResponse{}, http.StatusCreated, nil
+func (s *create) CreatePermission(permission requests.CreatePermissionRequest) (resp responses.PermissionResponse, statusCode int, err error) {
+	return responses.PermissionResponse{}, http.StatusCreated, nil
 }
