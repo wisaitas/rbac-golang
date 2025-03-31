@@ -83,7 +83,9 @@ func generateSeedID(path Path) {
 	subDistricts := readSubDistricts(path.SubDistrictPath)
 	permissions := readPermissions(path.PermissionPath)
 	roles := readRoles(path.RolePath)
+	rolesPermissions := readRolesPermissions(path.RolePermissionPath)
 	users := readUsers(path.UserPath)
+	usersRoles := readUsersRoles(path.UserRolePath)
 
 	provinceIDToUUID := make(map[int]string)
 	for i := range provinces {
@@ -105,52 +107,41 @@ func generateSeedID(path Path) {
 		subDistrictIDToUUID[subDistricts[i].ID] = subDistricts[i].UUID
 	}
 
+	// สร้าง map เก็บ ID เดิมและ ID ใหม่ของ roles
+	roleIDMap := make(map[string]string)
 	for i := range roles {
+		oldID := roles[i].ID
 		roles[i].ID = uuid.New().String()
+		roleIDMap[oldID] = roles[i].ID
 	}
 
+	// สร้าง map เก็บ ID เดิมและ ID ใหม่ของ permissions
+	permissionIDMap := make(map[string]string)
 	for i := range permissions {
+		oldID := permissions[i].ID
 		permissions[i].ID = uuid.New().String()
+		permissionIDMap[oldID] = permissions[i].ID
 	}
 
+	// อัพเดท role_id และ permission_id ใน rolesPermissions
+	for i := range rolesPermissions {
+		rolesPermissions[i].RoleID = roleIDMap[rolesPermissions[i].RoleID]
+		rolesPermissions[i].PermissionID = permissionIDMap[rolesPermissions[i].PermissionID]
+	}
+
+	// สร้าง map เก็บ ID เดิมและ ID ใหม่ของ users
+	userIDMap := make(map[string]string)
 	for i := range users {
+		oldID := users[i].ID
 		users[i].ID = uuid.New().String()
+		userIDMap[oldID] = users[i].ID
 	}
 
-	rolesPermissions := []RolePermission{}
-	permissionNameToID := make(map[string]string)
-	for _, permission := range permissions {
-		permissionNameToID[permission.Name] = permission.ID
+	// อัพเดท user_id และ role_id ใน usersRoles
+	for i := range usersRoles {
+		usersRoles[i].UserID = userIDMap[usersRoles[i].UserID]
+		usersRoles[i].RoleID = roleIDMap[usersRoles[i].RoleID]
 	}
-
-	var adminRoleID string
-	for _, role := range roles {
-		if role.Name == "admin" {
-			adminRoleID = role.ID
-			break
-		}
-	}
-
-	for _, permission := range permissions {
-		rolesPermissions = append(rolesPermissions, RolePermission{
-			RoleID:       adminRoleID,
-			PermissionID: permission.ID,
-		})
-	}
-
-	usersRoles := []UserRole{}
-	var adminUserID string
-	for _, user := range users {
-		if user.Username == "admin" {
-			adminUserID = user.ID
-			break
-		}
-	}
-
-	usersRoles = append(usersRoles, UserRole{
-		UserID: adminUserID,
-		RoleID: adminRoleID,
-	})
 
 	writeToFile(path.ProvincePath, provinces)
 	writeToFile(path.DistrictPath, districts)
@@ -246,6 +237,35 @@ func readUsers(filename string) []User {
 		os.Exit(1)
 	}
 	return users
+}
+
+func readRolesPermissions(filename string) []RolePermission {
+	data, err := os.ReadFile(filename)
+	if err != nil {
+		fmt.Printf("Error reading file %s: %v\n", filename, err)
+		os.Exit(1)
+	}
+	var rolesPermissions []RolePermission
+	if err := json.Unmarshal(data, &rolesPermissions); err != nil {
+		fmt.Printf("Error unmarshaling %s: %v\n", filename, err)
+		os.Exit(1)
+	}
+	return rolesPermissions
+}
+
+func readUsersRoles(filename string) []UserRole {
+	data, err := os.ReadFile(filename)
+	if err != nil {
+		fmt.Printf("Error reading file %s: %v\n", filename, err)
+		os.Exit(1)
+	}
+
+	var usersRoles []UserRole
+	if err := json.Unmarshal(data, &usersRoles); err != nil {
+		fmt.Printf("Error unmarshaling %s: %v\n", filename, err)
+		os.Exit(1)
+	}
+	return usersRoles
 }
 
 func writeToFile(filename string, data interface{}) {

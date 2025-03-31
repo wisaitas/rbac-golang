@@ -21,5 +21,11 @@ func NewRoleMiddleware(
 }
 
 func (r *RoleMiddleware) RotateRole(c *fiber.Ctx) error {
+	if err := authToken(c, r.redisUtil, r.jwtUtil); err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(pkg.ErrorResponse{
+			Message: pkg.Error(err).Error(),
+		})
+	}
+
 	return c.Next()
 }

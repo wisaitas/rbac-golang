@@ -1,16 +1,16 @@
 [
   {
-    "id": "d2f04f62-4d62-40d3-9fdf-3728730d9cc6",
+    "id": "557f8a3b-b170-4246-a6fa-40caf967f1f2",
     "name": "Admin",
     "description": "Admin role"
   },
   {
-    "id": "3b68fa1a-2a85-43f0-80fd-b07438a36965",
+    "id": "29d39675-d1d0-4fda-8367-2cee8adcae5b",
     "name": "Manager",
     "description": "Manager role"
   },
   {
-    "id": "230a6a84-2db8-4dd1-a0ad-aa94206af90c",
+    "id": "0cebf79f-4e4b-46b8-b9e6-d31a4e7481d3",
     "name": "User",
     "description": "User role"
   }
