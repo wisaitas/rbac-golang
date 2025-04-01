@@ -14,6 +14,7 @@ import (
 
 type Create interface {
 	CreateUser(req requests.CreateUserRequest) (resp responses.CreateUserResponse, statusCode int, err error)
+	AssignRole(req requests.AssignRoleRequest) (resp responses.UsersResponse, statusCode int, err error)
 }
 
 type create struct {
@@ -32,7 +33,7 @@ func NewCreate(
 }
 
 func (r *create) CreateUser(req requests.CreateUserRequest) (resp responses.CreateUserResponse, statusCode int, err error) {
-	user := req.ToModel()
+	user := req.ReqToModel()
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -50,4 +51,9 @@ func (r *create) CreateUser(req requests.CreateUserRequest) (resp responses.Crea
 	}
 
 	return resp.ModelToResponse(user), http.StatusCreated, nil
+}
+
+func (r *create) AssignRole(req requests.AssignRoleRequest) (resp responses.UsersResponse, statusCode int, err error) {
+
+	return resp, http.StatusOK, nil
 }

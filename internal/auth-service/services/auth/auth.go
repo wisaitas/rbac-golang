@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"sort"
 	"strings"
 	"time"
 
@@ -29,6 +30,7 @@ type AuthService interface {
 type authService struct {
 	userRepository        repositories.UserRepository
 	userHistoryRepository repositories.UserHistoryRepository
+	roleRepository        repositories.RoleRepository
 	redis                 pkg.RedisUtil
 	jwtUtil               pkg.JWTUtil
 }
@@ -36,12 +38,14 @@ type authService struct {
 func NewAuthService(
 	userRepository repositories.UserRepository,
 	userHistoryRepository repositories.UserHistoryRepository,
+	roleRepository repositories.RoleRepository,
 	redis pkg.RedisUtil,
 	jwtUtil pkg.JWTUtil,
 ) AuthService {
 	return &authService{
 		userRepository:        userRepository,
 		userHistoryRepository: userHistoryRepository,
+		roleRepository:        roleRepository,
 		redis:                 redis,
 		jwtUtil:               jwtUtil,
 	}
@@ -49,7 +53,7 @@ func NewAuthService(
 
 func (r *authService) Login(req requests.LoginRequest) (resp responses.LoginResponse, statusCode int, err error) {
 	user := models.User{}
-	if err := r.userRepository.GetBy(map[string]interface{}{"username": req.Username}, &user); err != nil {
+	if err := r.userRepository.GetBy(map[string]interface{}{"username": req.Username}, &user, "Roles"); err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return resp, http.StatusNotFound, pkg.Error(err)
 		}
@@ -79,12 +83,22 @@ func (r *authService) Login(req requests.LoginRequest) (resp responses.LoginResp
 		return resp, http.StatusInternalServerError, pkg.Error(err)
 	}
 
-	tokenRedisData := map[string]interface{}{
-		"user_id":       user.ID,
-		"username":      user.Username,
-		"email":         user.Email,
-		"access_token":  accessToken,
-		"refresh_token": refreshToken,
+	sort.Slice(user.Roles, func(i, j int) bool {
+		return user.Roles[i].Priority < user.Roles[j].Priority
+	})
+
+	fmt.Println(user.Roles)
+
+	role := user.Roles[0]
+
+	tokenRedisData := models.UserContext{
+		UserID:       user.ID,
+		Username:     user.Username,
+		Email:        user.Email,
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+		RoleID:       role.ID,
+		RoleName:     role.Name,
 	}
 
 	tokenRedisDataJson, err := json.Marshal(tokenRedisData)
@@ -112,6 +126,13 @@ func (r *authService) Register(req requests.RegisterRequest) (resp responses.Reg
 	}
 
 	user.Password = string(hashedPassword)
+
+	role := models.Role{}
+	if err := r.roleRepository.GetBy(map[string]interface{}{"name": "User"}, &role); err != nil {
+		return resp, http.StatusInternalServerError, pkg.Error(err)
+	}
+
+	user.Roles = append(user.Roles, role)
 
 	if err = r.userRepository.Create(&user); err != nil {
 		if strings.Contains(err.Error(), "unique constraint") {

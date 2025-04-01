@@ -32,6 +32,7 @@ func initializeServices(repos *Repositories, utils *Utils) *Services {
 		AuthService: authService.NewAuthService(
 			repos.UserRepository,
 			repos.UserHistoryRepository,
+			repos.RoleRepository,
 			utils.RedisUtil,
 			utils.JWTUtil,
 		),

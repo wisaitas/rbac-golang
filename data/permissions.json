@@ -1,66 +1,66 @@
 [
   {
-    "id": "6170354c-1b5f-43f8-9802-df95d21fc900",
+    "id": "b9f09c0c-398e-455f-bf4b-bef4ca492916",
     "name": "user_create",
     "description": "Create a new user"
   },
   {
-    "id": "50c5ea37-5e74-41fe-b962-2eac1f22e8c2",
+    "id": "b58f6b4f-16f4-4976-afca-2379859d22a6",
     "name": "user_read",
     "description": "Read a user"
   },
   {
-    "id": "cc93acc2-e6f0-47a9-9eeb-d111cebc4c41",
+    "id": "7cbefab7-f80d-4c63-ad7f-911bffd2f5a5",
     "name": "user_update",
     "description": "Update a user"
   },
   {
-    "id": "472d6c82-e955-42dc-a8df-9e89bd6d5db7",
+    "id": "5eb6ecac-1b1e-412c-b7bf-e735ff3b3e60",
     "name": "user_delete",
     "description": "Delete a user"
   },
   {
-    "id": "de6a48da-1557-4ba1-9288-adaf00413ff8",
+    "id": "3e9f1563-cb99-41a8-b70b-7108ea25f2ac",
     "name": "role_create",
     "description": "Create a new role"
   },
   {
-    "id": "c828b190-63bb-4340-90fa-83d3887d6b7a",
+    "id": "98304351-9dd7-4514-b305-d4ae135954e6",
     "name": "role_read",
     "description": "Read a role"
   },
   {
-    "id": "95171f50-a31d-448a-8367-baecef965bf9",
+    "id": "db09f822-fefa-48d5-bb2b-d0aec1b3c91c",
     "name": "role_update",
     "description": "Update a role"
   },
   {
-    "id": "97964e2a-875b-40f5-88f1-bd6f6852aae0",
+    "id": "d361e756-3c5d-46e7-81e0-fe86560d39d0",
     "name": "role_rotate",
     "description": "Rotate a role"
   },
   {
-    "id": "f3c9bff8-741a-4953-8dd5-02f99d911773",
+    "id": "6e5b93ca-9a7d-4512-af44-20a79166760a",
     "name": "role_delete",
     "description": "Delete a role"
   },
   {
-    "id": "5be5c961-59b6-4ff5-b13c-829786b54491",
+    "id": "2b19fd14-1d40-4647-a9a4-2ad2caee51b0",
     "name": "permission_create",
     "description": "Create a new permission"
   },
   {
-    "id": "fa36360a-8f76-4457-9543-775636aa7420",
+    "id": "e89502fe-2f80-4973-b059-aec2701e6972",
     "name": "permission_read",
     "description": "Read a permission"
   },
   {
-    "id": "072246c2-c2db-42ca-a7e6-b6b39e05c670",
+    "id": "b4a32c73-c185-4013-90bd-041cafbe6d50",
     "name": "permission_update",
     "description": "Update a permission"
   },
   {
-    "id": "a6a5b397-bc94-4356-925f-e6b78d65a568",
+    "id": "9c8ff77d-f48c-4a10-9b67-fb8bbda25948",
     "name": "permission_delete",
     "description": "Delete a permission"
   }

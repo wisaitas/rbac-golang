@@ -23,7 +23,7 @@ func (r *CreateUserResponse) ModelToResponse(user models.User) CreateUserRespons
 	return *r
 }
 
-type GetUsersResponse struct {
+type UsersResponse struct {
 	pkg.BaseResponse
 	Username  string            `json:"username"`
 	Email     string            `json:"email"`
@@ -31,9 +31,10 @@ type GetUsersResponse struct {
 	LastName  string            `json:"last_name"`
 	BirthDate time.Time         `json:"birth_date"`
 	Addresses []AddressResponse `json:"addresses"`
+	Roles     []RoleResponse    `json:"roles"`
 }
 
-func (r *GetUsersResponse) ModelToResponse(user models.User) GetUsersResponse {
+func (r *UsersResponse) ModelToResponse(user models.User) UsersResponse {
 	r.ID = user.ID
 	r.CreatedAt = user.CreatedAt
 	r.UpdatedAt = user.UpdatedAt
@@ -46,6 +47,11 @@ func (r *GetUsersResponse) ModelToResponse(user models.User) GetUsersResponse {
 	for _, address := range user.Addresses {
 		addressResponse := AddressResponse{}
 		r.Addresses = append(r.Addresses, addressResponse.ModelToResponse(address))
+	}
+
+	for _, role := range user.Roles {
+		roleResponse := RoleResponse{}
+		r.Roles = append(r.Roles, roleResponse.ModelToResponse(role))
 	}
 
 	if len(r.Addresses) == 0 {
@@ -85,4 +91,7 @@ func (r *UpdateUserResponse) ModelToResponse(user models.User) UpdateUserRespons
 	}
 
 	return *r
+}
+
+type AssignRoleResponse struct {
 }

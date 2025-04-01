@@ -8,7 +8,6 @@ import (
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt/v5"
 	"github.com/redis/go-redis/v9"
 	"github.com/wisaitas/rbac-golang/internal/auth-service/configs"
 	"github.com/wisaitas/rbac-golang/internal/auth-service/models"
@@ -24,13 +23,7 @@ func authToken(c *fiber.Ctx, redisUtil pkg.RedisUtil, jwtUtil pkg.JWTUtil) error
 	token := strings.TrimPrefix(authHeader, "Bearer ")
 
 	var tokenContext models.TokenContext
-	_, err := jwt.ParseWithClaims(token, &tokenContext, func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
-		}
-		return []byte(configs.ENV.JWT_SECRET), nil
-	})
-	if err != nil {
+	if err := jwtUtil.ValidateToken(token, &tokenContext, configs.ENV.JWT_SECRET); err != nil {
 		return pkg.Error(err)
 	}
 
@@ -61,13 +54,7 @@ func authRefreshToken(c *fiber.Ctx, redisUtil pkg.RedisUtil, jwtUtil pkg.JWTUtil
 	token := strings.TrimPrefix(authHeader, "Bearer ")
 
 	var tokenContext models.TokenContext
-	_, err := jwt.ParseWithClaims(token, &tokenContext, func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
-		}
-		return []byte(configs.ENV.JWT_SECRET), nil
-	})
-	if err != nil {
+	if err := jwtUtil.ValidateToken(token, &tokenContext, configs.ENV.JWT_SECRET); err != nil {
 		return pkg.Error(err)
 	}
 

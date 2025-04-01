@@ -1,9 +1,9 @@
 package requests
 
 import (
-	"mime/multipart"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/wisaitas/rbac-golang/internal/auth-service/models"
 )
 
@@ -14,7 +14,7 @@ type CreateUserRequest struct {
 	ConfirmPassword string `json:"confirm_password" validate:"required,eqfield=Password"`
 }
 
-func (r *CreateUserRequest) ToModel() models.User {
+func (r *CreateUserRequest) ReqToModel() models.User {
 	return models.User{
 		Username: r.Username,
 		Email:    r.Email,
@@ -29,6 +29,6 @@ type UpdateUserRequest struct {
 	Email     *string    `json:"email" validate:"omitempty,email"`
 }
 
-type ImportUser struct {
-	File *multipart.FileHeader `form:"file"`
+type AssignRoleRequest struct {
+	RoleID uuid.UUID `json:"role_id" validate:"required"`
 }
