@@ -54,6 +54,6 @@ func (r *create) CreateUser(req requests.CreateUserRequest) (resp responses.Crea
 }
 
 func (r *create) AssignRole(req requests.AssignRoleRequest) (resp responses.UsersResponse, statusCode int, err error) {
-
+	// TODO: Implement
 	return resp, http.StatusOK, nil
 }
