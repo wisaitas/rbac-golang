@@ -41,7 +41,13 @@ func NewUpdate(
 func (r *update) UpdateUser(param params.UserParams, request requests.UpdateUserRequest) (resp responses.UpdateUserResponse, statusCode int, err error) {
 	user := models.User{}
 
-	if err := r.userRepository.GetBy(&user, pkg.NewCondition("id = ?", param.ID), "Addresses"); err != nil {
+	relations := []pkg.Relation{
+		{
+			Query: "Addresses",
+		},
+	}
+
+	if err := r.userRepository.GetBy(&user, pkg.NewCondition("id = ?", param.ID), &relations); err != nil {
 		return resp, http.StatusNotFound, pkg.Error(err)
 	}
 

@@ -32,7 +32,7 @@ func NewGet(
 func (r *get) GetRoles(query queries.RoleQuery) (resp []responses.RoleResponse, statusCode int, err error) {
 	roles := []models.Role{}
 
-	if err := r.roleRepository.GetAll(&roles, &query.PaginationQuery, nil); err != nil {
+	if err := r.roleRepository.GetAll(&roles, &query.PaginationQuery, nil, nil); err != nil {
 		return []responses.RoleResponse{}, http.StatusInternalServerError, err
 	}
 

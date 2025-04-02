@@ -37,8 +37,8 @@ func initializeServices(repos *Repositories, utils *Utils) *Services {
 			utils.JWTUtil,
 		),
 		ProvinceService: provinceService.NewProvinceService(
-			provinceService.NewRead(repos.ProvinceRepository, utils.RedisUtil),
-			provinceService.NewCreate(repos.ProvinceRepository, utils.RedisUtil),
+			provinceService.NewGet(repos.ProvinceRepository, utils.RedisUtil),
+			provinceService.NewPost(repos.ProvinceRepository, utils.RedisUtil),
 		),
 		DistrictService: districtService.NewDistrictService(
 			districtService.NewGet(repos.DistrictRepository, utils.RedisUtil),

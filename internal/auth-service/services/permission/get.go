@@ -37,7 +37,7 @@ func (r *get) GetPermissions(query queries.PermissionQuery) (resp []responses.Pe
 		condition = pkg.NewCondition("name LIKE ?", "%"+*query.Name+"%")
 	}
 
-	if err := r.permissionRepository.GetAll(&permissions, &query.PaginationQuery, condition); err != nil {
+	if err := r.permissionRepository.GetAll(&permissions, &query.PaginationQuery, condition, nil); err != nil {
 		return []responses.PermissionResponse{}, http.StatusInternalServerError, pkg.Error(err)
 	}
 

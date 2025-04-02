@@ -52,7 +52,7 @@ func (r *get) GetDistricts(query queries.DistrictQuery) (resp []responses.Distri
 		return resp, http.StatusOK, nil
 	}
 
-	if err := r.districtRepository.GetAll(&districts, &query.PaginationQuery, pkg.NewCondition("province_id = ?", query.ProvinceID)); err != nil {
+	if err := r.districtRepository.GetAll(&districts, &query.PaginationQuery, pkg.NewCondition("province_id = ?", query.ProvinceID), nil); err != nil {
 		return nil, http.StatusInternalServerError, pkg.Error(err)
 	}
 

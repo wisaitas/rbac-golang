@@ -52,7 +52,7 @@ func (r *get) GetUsers(query pkg.PaginationQuery) (resp []responses.UsersRespons
 		return resp, http.StatusOK, nil
 	}
 
-	if err := r.userRepository.GetAll(&users, &query, nil); err != nil {
+	if err := r.userRepository.GetAll(&users, &query, nil, nil); err != nil {
 		return []responses.UsersResponse{}, http.StatusInternalServerError, pkg.Error(err)
 	}
 
@@ -91,7 +91,16 @@ func (r *get) GetUserProfile(userContext models.UserContext) (resp responses.Use
 		return resp, http.StatusOK, nil
 	}
 
-	if err := r.userRepository.GetBy(&user, pkg.NewCondition("id = ?", userContext.UserID), "Addresses", "Roles"); err != nil {
+	relations := []pkg.Relation{
+		{
+			Query: "Addresses",
+		},
+		{
+			Query: "Roles",
+		},
+	}
+
+	if err := r.userRepository.GetBy(&user, pkg.NewCondition("id = ?", userContext.UserID), &relations); err != nil {
 		return responses.UsersResponse{}, http.StatusNotFound, pkg.Error(err)
 	}
 
