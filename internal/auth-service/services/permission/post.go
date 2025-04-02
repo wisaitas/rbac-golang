@@ -9,25 +9,25 @@ import (
 	"github.com/wisaitas/rbac-golang/pkg"
 )
 
-type Create interface {
+type Post interface {
 	CreatePermission(permission requests.CreatePermissionRequest) (resp responses.PermissionResponse, statusCode int, err error)
 }
 
-type create struct {
+type post struct {
 	permissionRepository repositories.PermissionRepository
 	redisUtil            pkg.RedisUtil
 }
 
-func NewCreate(
+func NewPost(
 	permissionRepository repositories.PermissionRepository,
 	redisUtil pkg.RedisUtil,
-) Create {
-	return &create{
+) Post {
+	return &post{
 		permissionRepository: permissionRepository,
 		redisUtil:            redisUtil,
 	}
 }
 
-func (s *create) CreatePermission(permission requests.CreatePermissionRequest) (resp responses.PermissionResponse, statusCode int, err error) {
+func (s *post) CreatePermission(permission requests.CreatePermissionRequest) (resp responses.PermissionResponse, statusCode int, err error) {
 	return responses.PermissionResponse{}, http.StatusCreated, nil
 }

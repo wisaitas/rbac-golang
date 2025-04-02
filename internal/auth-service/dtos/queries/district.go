@@ -7,5 +7,5 @@ import (
 
 type DistrictQuery struct {
 	pkg.PaginationQuery
-	ProvinceID uuid.UUID `query:"province_id"`
+	ProvinceID uuid.UUID `query:"province_id" validate:"required"`
 }

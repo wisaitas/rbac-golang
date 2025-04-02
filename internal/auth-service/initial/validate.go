@@ -23,7 +23,7 @@ func initializeValidates() *Validates {
 		AddressValidate:        *validates.NewAddressValidate(),
 		AuthValidate:           *validates.NewAuthValidate(),
 		DistrictValidate:       *validates.NewDistrictValidate(),
-		PermissionValidate:     *validates.NewPermissionValidate(),
+		PermissionValidate:     validates.NewPermissionValidate(),
 		ProvinceValidate:       *validates.NewProvinceValidate(),
 		RoleValidate:           *validates.NewRoleValidate(),
 		RolePermissionValidate: *validates.NewRolePermissionValidate(),

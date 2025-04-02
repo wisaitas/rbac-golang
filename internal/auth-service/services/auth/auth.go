@@ -53,7 +53,7 @@ func NewAuthService(
 
 func (r *authService) Login(req requests.LoginRequest) (resp responses.LoginResponse, statusCode int, err error) {
 	user := models.User{}
-	if err := r.userRepository.GetBy(map[string]interface{}{"username": req.Username}, &user, "Roles"); err != nil {
+	if err := r.userRepository.GetBy(&user, pkg.NewCondition("username = ?", req.Username), "Roles"); err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return resp, http.StatusNotFound, pkg.Error(err)
 		}
@@ -128,7 +128,7 @@ func (r *authService) Register(req requests.RegisterRequest) (resp responses.Reg
 	user.Password = string(hashedPassword)
 
 	role := models.Role{}
-	if err := r.roleRepository.GetBy(map[string]interface{}{"name": "User"}, &role); err != nil {
+	if err := r.roleRepository.GetBy(&role, pkg.NewCondition("name = ?", "User")); err != nil {
 		return resp, http.StatusInternalServerError, pkg.Error(err)
 	}
 
@@ -159,7 +159,7 @@ func (r *authService) Logout(tokenContext models.TokenContext) (statusCode int, 
 
 func (r *authService) RefreshToken(userContext models.UserContext) (resp responses.LoginResponse, statusCode int, err error) {
 	user := models.User{}
-	if err := r.userRepository.GetBy(map[string]interface{}{"username": userContext.Username}, &user); err != nil {
+	if err := r.userRepository.GetBy(&user, pkg.NewCondition("username = ?", userContext.Username), "Roles"); err != nil {
 		return resp, http.StatusNotFound, pkg.Error(err)
 	}
 

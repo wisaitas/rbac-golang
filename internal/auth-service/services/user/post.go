@@ -12,27 +12,27 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type Create interface {
+type Post interface {
 	CreateUser(req requests.CreateUserRequest) (resp responses.CreateUserResponse, statusCode int, err error)
 	AssignRole(req requests.AssignRoleRequest) (resp responses.UsersResponse, statusCode int, err error)
 }
 
-type create struct {
+type post struct {
 	userRepository repositories.UserRepository
 	redisUtil      pkg.RedisUtil
 }
 
-func NewCreate(
+func NewPost(
 	userRepository repositories.UserRepository,
 	redisUtil pkg.RedisUtil,
-) Create {
-	return &create{
+) Post {
+	return &post{
 		userRepository: userRepository,
 		redisUtil:      redisUtil,
 	}
 }
 
-func (r *create) CreateUser(req requests.CreateUserRequest) (resp responses.CreateUserResponse, statusCode int, err error) {
+func (r *post) CreateUser(req requests.CreateUserRequest) (resp responses.CreateUserResponse, statusCode int, err error) {
 	user := req.ReqToModel()
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
@@ -53,7 +53,7 @@ func (r *create) CreateUser(req requests.CreateUserRequest) (resp responses.Crea
 	return resp.ModelToResponse(user), http.StatusCreated, nil
 }
 
-func (r *create) AssignRole(req requests.AssignRoleRequest) (resp responses.UsersResponse, statusCode int, err error) {
-	// TODO: Implement
+func (r *post) AssignRole(req requests.AssignRoleRequest) (resp responses.UsersResponse, statusCode int, err error) {
+
 	return resp, http.StatusOK, nil
 }

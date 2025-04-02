@@ -53,7 +53,7 @@ func initializeRoutes(
 		PermissionRoutes: routes.NewPermissionRoutes(
 			apiRoutes,
 			&handlers.PermissionHandler,
-			&validates.PermissionValidate,
+			validates.PermissionValidate,
 		),
 		RoleRoutes: routes.NewRoleRoutes(
 			apiRoutes,

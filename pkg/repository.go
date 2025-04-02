@@ -4,9 +4,21 @@ import (
 	"gorm.io/gorm"
 )
 
+type Condition struct {
+	Query interface{}
+	Args  []interface{}
+}
+
+func NewCondition(query interface{}, args ...interface{}) *Condition {
+	return &Condition{
+		Query: query,
+		Args:  args,
+	}
+}
+
 type BaseRepository[T any] interface {
-	GetAll(items *[]T, pagination *PaginationQuery, condition interface{}, relations ...string) error
-	GetBy(condition interface{}, item *T, relations ...string) error
+	GetAll(items *[]T, pagination *PaginationQuery, condition *Condition, relations ...string) error
+	GetBy(item *T, condition *Condition, relations ...string) error
 	Create(item *T) error
 	CreateMany(items *[]T) error
 	Update(item *T) error
@@ -28,8 +40,11 @@ func NewBaseRepository[T any](db *gorm.DB) BaseRepository[T] {
 	}
 }
 
-func (r *baseRepository[T]) GetAll(items *[]T, pagination *PaginationQuery, condition interface{}, relations ...string) error {
-	query := r.db.Where(condition)
+func (r *baseRepository[T]) GetAll(items *[]T, pagination *PaginationQuery, condition *Condition, relations ...string) error {
+	query := r.db
+	if condition != nil {
+		query = query.Where(condition.Query, condition.Args...)
+	}
 
 	if pagination != nil {
 		if pagination.Page != nil && pagination.PageSize != nil {
@@ -50,8 +65,11 @@ func (r *baseRepository[T]) GetAll(items *[]T, pagination *PaginationQuery, cond
 	return query.Find(items).Error
 }
 
-func (r *baseRepository[T]) GetBy(condition interface{}, item *T, relations ...string) error {
-	query := r.db.Where(condition)
+func (r *baseRepository[T]) GetBy(item *T, condition *Condition, relations ...string) error {
+	query := r.db
+	if condition != nil {
+		query = query.Where(condition.Query, condition.Args...)
+	}
 
 	for _, relation := range relations {
 		query = query.Preload(relation)
