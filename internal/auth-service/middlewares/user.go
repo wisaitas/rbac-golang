@@ -37,19 +37,5 @@ func (r *UserMiddleware) UpdateUser(c *fiber.Ctx) error {
 		})
 	}
 
-	// if handler permission
-	// userContext, ok := c.Locals("userContext").(models.UserContext)
-	// if !ok {
-	// 	return c.Status(fiber.StatusUnauthorized).JSON(responses.ErrorResponse{
-	// 		Message: "user context not found",
-	// 	})
-	// }
-
-	// if userContext.Username != "test" {
-	// 	return c.Status(fiber.StatusForbidden).JSON(responses.ErrorResponse{
-	// 		Message: "you are not authorized to access this resource",
-	// 	})
-	// }
-
 	return c.Next()
 }
