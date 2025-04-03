@@ -34,7 +34,7 @@ func InitializeApp() *App {
 	repositories := initializeRepositories(configs.DB)
 	services := initializeServices(repositories, utils)
 	handlers := initializeHandlers(services)
-	validates := initializeValidates()
+	validates := initializeValidates(utils)
 	middlewares := initializeMiddlewares(utils)
 
 	apiRoutes := app.Group("/api/v1")

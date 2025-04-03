@@ -2,49 +2,45 @@ package validates
 
 import (
 	"errors"
-	"fmt"
 	"mime/multipart"
 	"reflect"
 	"strconv"
 
-	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/wisaitas/rbac-golang/internal/auth-service/configs"
 	"github.com/wisaitas/rbac-golang/pkg"
 )
 
-func validateCommonRequestJSONBody[T any](c *fiber.Ctx, req *T) error {
+func validateCommonRequestJSONBody[T any](c *fiber.Ctx, req *T, validator pkg.ValidatorUtil) error {
 	if err := c.BodyParser(&req); err != nil {
-		return err
+		return pkg.Error(err)
 	}
 
-	if err := validator.New().Struct(req); err != nil {
-		return err
+	if err := validator.Validate(req); err != nil {
+		return pkg.Error(err)
 	}
 
 	return nil
 }
 
-func validateCommonRequestParams[T any](c *fiber.Ctx, req *T) error {
+func validateCommonRequestParams[T any](c *fiber.Ctx, req *T, validator pkg.ValidatorUtil) error {
 	if err := c.ParamsParser(req); err != nil {
 		return pkg.Error(err)
 	}
 
-	fmt.Println(req)
-
-	if err := validator.New().Struct(req); err != nil {
+	if err := validator.Validate(req); err != nil {
 		return pkg.Error(err)
 	}
 
 	return nil
 }
 
-func validateCommonRequestFormBody[T any](c *fiber.Ctx, req *T) error {
+func validateCommonRequestFormBody[T any](c *fiber.Ctx, req *T, validator pkg.ValidatorUtil) error {
 	if err := c.BodyParser(req); err != nil {
 		return pkg.Error(err)
 	}
 
-	if err := validator.New().Struct(req); err != nil {
+	if err := validator.Validate(req); err != nil {
 		return pkg.Error(err)
 	}
 
@@ -97,7 +93,7 @@ func validateImageFiles(files []*multipart.FileHeader) error {
 	return nil
 }
 
-func validateCommonPaginationQuery[T any](c *fiber.Ctx, req *T) error {
+func validateCommonPaginationQuery[T any](c *fiber.Ctx, req *T, validator pkg.ValidatorUtil) error {
 	if err := c.QueryParser(req); err != nil {
 		return pkg.Error(err)
 	}
@@ -117,8 +113,8 @@ func validateCommonPaginationQuery[T any](c *fiber.Ctx, req *T) error {
 		}
 	}
 
-	if err := validator.New().Struct(req); err != nil {
-		return pkg.Error(err)
+	if err := validator.Validate(req); err != nil {
+		return err
 	}
 
 	return nil

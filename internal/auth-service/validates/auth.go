@@ -7,16 +7,19 @@ import (
 )
 
 type AuthValidate struct {
+	validatorUtil pkg.ValidatorUtil
 }
 
-func NewAuthValidate() *AuthValidate {
-	return &AuthValidate{}
+func NewAuthValidate(validatorUtil pkg.ValidatorUtil) *AuthValidate {
+	return &AuthValidate{
+		validatorUtil: validatorUtil,
+	}
 }
 
 func (r *AuthValidate) ValidateLoginRequest(c *fiber.Ctx) error {
 	req := requests.LoginRequest{}
 
-	if err := validateCommonRequestJSONBody(c, &req); err != nil {
+	if err := validateCommonRequestJSONBody(c, &req, r.validatorUtil); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(pkg.ErrorResponse{
 			Message: pkg.Error(err).Error(),
 		})
@@ -29,7 +32,7 @@ func (r *AuthValidate) ValidateLoginRequest(c *fiber.Ctx) error {
 func (r *AuthValidate) ValidateRegisterRequest(c *fiber.Ctx) error {
 	req := requests.RegisterRequest{}
 
-	if err := validateCommonRequestJSONBody(c, &req); err != nil {
+	if err := validateCommonRequestJSONBody(c, &req, r.validatorUtil); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(pkg.ErrorResponse{
 			Message: pkg.Error(err).Error(),
 		})

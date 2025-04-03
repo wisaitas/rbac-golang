@@ -7,16 +7,19 @@ import (
 )
 
 type PermissionValidate struct {
+	validatorUtil pkg.ValidatorUtil
 }
 
-func NewPermissionValidate() *PermissionValidate {
-	return &PermissionValidate{}
+func NewPermissionValidate(validatorUtil pkg.ValidatorUtil) *PermissionValidate {
+	return &PermissionValidate{
+		validatorUtil: validatorUtil,
+	}
 }
 
 func (r *PermissionValidate) ValidateCreatePermissionRequest(c *fiber.Ctx) error {
 	request := requests.CreatePermissionRequest{}
 
-	if err := validateCommonRequestJSONBody(c, &request); err != nil {
+	if err := validateCommonRequestJSONBody(c, &request, r.validatorUtil); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(pkg.ErrorResponse{
 			Message: pkg.Error(err).Error(),
 		})

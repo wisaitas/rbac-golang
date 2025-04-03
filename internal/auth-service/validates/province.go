@@ -6,16 +6,19 @@ import (
 )
 
 type ProvinceValidate struct {
+	validatorUtil pkg.ValidatorUtil
 }
 
-func NewProvinceValidate() *ProvinceValidate {
-	return &ProvinceValidate{}
+func NewProvinceValidate(validatorUtil pkg.ValidatorUtil) *ProvinceValidate {
+	return &ProvinceValidate{
+		validatorUtil: validatorUtil,
+	}
 }
 
 func (r *ProvinceValidate) ValidateGetProvincesRequest(c *fiber.Ctx) error {
 	query := pkg.PaginationQuery{}
 
-	if err := validateCommonPaginationQuery(c, &query); err != nil {
+	if err := validateCommonPaginationQuery(c, &query, r.validatorUtil); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(pkg.ErrorResponse{
 			Message: pkg.Error(err).Error(),
 		})
