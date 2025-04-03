@@ -6,17 +6,25 @@ import (
 	"github.com/wisaitas/rbac-golang/pkg"
 )
 
-type AuthValidate struct {
+type AuthValidate interface {
+	ValidateLoginRequest(c *fiber.Ctx) error
+	ValidateRegisterRequest(c *fiber.Ctx) error
 }
 
-func NewAuthValidate() *AuthValidate {
-	return &AuthValidate{}
+type authValidate struct {
+	validatorUtil pkg.ValidatorUtil
 }
 
-func (r *AuthValidate) ValidateLoginRequest(c *fiber.Ctx) error {
+func NewAuthValidate(validatorUtil pkg.ValidatorUtil) AuthValidate {
+	return &authValidate{
+		validatorUtil: validatorUtil,
+	}
+}
+
+func (r *authValidate) ValidateLoginRequest(c *fiber.Ctx) error {
 	req := requests.LoginRequest{}
 
-	if err := validateCommonRequestJSONBody(c, &req); err != nil {
+	if err := validateCommonRequestJSONBody(c, &req, r.validatorUtil); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(pkg.ErrorResponse{
 			Message: pkg.Error(err).Error(),
 		})
@@ -26,10 +34,10 @@ func (r *AuthValidate) ValidateLoginRequest(c *fiber.Ctx) error {
 	return c.Next()
 }
 
-func (r *AuthValidate) ValidateRegisterRequest(c *fiber.Ctx) error {
+func (r *authValidate) ValidateRegisterRequest(c *fiber.Ctx) error {
 	req := requests.RegisterRequest{}
 
-	if err := validateCommonRequestJSONBody(c, &req); err != nil {
+	if err := validateCommonRequestJSONBody(c, &req, r.validatorUtil); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(pkg.ErrorResponse{
 			Message: pkg.Error(err).Error(),
 		})

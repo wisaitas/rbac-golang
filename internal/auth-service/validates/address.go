@@ -1,8 +1,16 @@
 package validates
 
-type AddressValidate struct {
+import "github.com/wisaitas/rbac-golang/pkg"
+
+type AddressValidate interface {
 }
 
-func NewAddressValidate() *AddressValidate {
-	return &AddressValidate{}
+type addressValidate struct {
+	validatorUtil pkg.ValidatorUtil
+}
+
+func NewAddressValidate(validatorUtil pkg.ValidatorUtil) AddressValidate {
+	return &addressValidate{
+		validatorUtil: validatorUtil,
+	}
 }

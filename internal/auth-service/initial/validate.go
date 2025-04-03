@@ -18,18 +18,18 @@ type Validates struct {
 	UserRoleValidate       validates.UserRoleValidate
 }
 
-func initializeValidates() *Validates {
+func initializeValidates(utils *Utils) *Validates {
 	return &Validates{
-		AddressValidate:        *validates.NewAddressValidate(),
-		AuthValidate:           *validates.NewAuthValidate(),
-		DistrictValidate:       *validates.NewDistrictValidate(),
-		PermissionValidate:     validates.NewPermissionValidate(),
-		ProvinceValidate:       *validates.NewProvinceValidate(),
-		RoleValidate:           *validates.NewRoleValidate(),
-		RolePermissionValidate: *validates.NewRolePermissionValidate(),
-		SubDistrictValidate:    *validates.NewSubDistrictValidate(),
-		UserValidate:           *validates.NewUserValidate(),
-		UserHistoryValidate:    *validates.NewUserHistoryValidate(),
-		UserRoleValidate:       *validates.NewUserRoleValidate(),
+		AddressValidate:        validates.NewAddressValidate(utils.ValidatorUtil),
+		AuthValidate:           validates.NewAuthValidate(utils.ValidatorUtil),
+		DistrictValidate:       validates.NewDistrictValidate(utils.ValidatorUtil),
+		PermissionValidate:     validates.NewPermissionValidate(utils.ValidatorUtil),
+		ProvinceValidate:       validates.NewProvinceValidate(utils.ValidatorUtil),
+		RoleValidate:           validates.NewRoleValidate(utils.ValidatorUtil),
+		RolePermissionValidate: validates.NewRolePermissionValidate(utils.ValidatorUtil),
+		SubDistrictValidate:    validates.NewSubDistrictValidate(utils.ValidatorUtil),
+		UserValidate:           validates.NewUserValidate(utils.ValidatorUtil),
+		UserHistoryValidate:    validates.NewUserHistoryValidate(utils.ValidatorUtil),
+		UserRoleValidate:       validates.NewUserRoleValidate(utils.ValidatorUtil),
 	}
 }

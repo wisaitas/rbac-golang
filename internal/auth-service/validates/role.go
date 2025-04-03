@@ -6,17 +6,24 @@ import (
 	"github.com/wisaitas/rbac-golang/pkg"
 )
 
-type RoleValidate struct {
+type RoleValidate interface {
+	ValidateGetRolesRequest(c *fiber.Ctx) error
 }
 
-func NewRoleValidate() *RoleValidate {
-	return &RoleValidate{}
+type roleValidate struct {
+	validatorUtil pkg.ValidatorUtil
 }
 
-func (v *RoleValidate) ValidateGetRolesRequest(c *fiber.Ctx) error {
+func NewRoleValidate(validatorUtil pkg.ValidatorUtil) RoleValidate {
+	return &roleValidate{
+		validatorUtil: validatorUtil,
+	}
+}
+
+func (v *roleValidate) ValidateGetRolesRequest(c *fiber.Ctx) error {
 	query := queries.RoleQuery{}
 
-	if err := validateCommonPaginationQuery(c, &query); err != nil {
+	if err := validateCommonPaginationQuery(c, &query, v.validatorUtil); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(pkg.ErrorResponse{
 			Message: pkg.Error(err).Error(),
 		})

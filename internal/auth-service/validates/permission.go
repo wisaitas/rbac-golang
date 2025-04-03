@@ -13,16 +13,19 @@ type PermissionValidate interface {
 }
 
 type permissionValidate struct {
+	validatorUtil pkg.ValidatorUtil
 }
 
-func NewPermissionValidate() PermissionValidate {
-	return &permissionValidate{}
+func NewPermissionValidate(validatorUtil pkg.ValidatorUtil) PermissionValidate {
+	return &permissionValidate{
+		validatorUtil: validatorUtil,
+	}
 }
 
 func (r *permissionValidate) ValidateCreatePermissionRequest(c *fiber.Ctx) error {
 	request := requests.CreatePermissionRequest{}
 
-	if err := validateCommonRequestJSONBody(c, &request); err != nil {
+	if err := validateCommonRequestJSONBody(c, &request, r.validatorUtil); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(pkg.ErrorResponse{
 			Message: pkg.Error(err).Error(),
 		})
@@ -35,7 +38,7 @@ func (r *permissionValidate) ValidateCreatePermissionRequest(c *fiber.Ctx) error
 func (r *permissionValidate) ValidateGetPermissionsRequest(c *fiber.Ctx) error {
 	query := queries.PermissionQuery{}
 
-	if err := validateCommonPaginationQuery(c, &query); err != nil {
+	if err := validateCommonPaginationQuery(c, &query, r.validatorUtil); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(pkg.ErrorResponse{
 			Message: pkg.Error(err).Error(),
 		})

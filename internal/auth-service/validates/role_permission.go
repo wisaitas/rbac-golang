@@ -1,8 +1,16 @@
 package validates
 
-type RolePermissionValidate struct {
+import "github.com/wisaitas/rbac-golang/pkg"
+
+type RolePermissionValidate interface {
 }
 
-func NewRolePermissionValidate() *RolePermissionValidate {
-	return &RolePermissionValidate{}
+type rolePermissionValidate struct {
+	validatorUtil pkg.ValidatorUtil
+}
+
+func NewRolePermissionValidate(validatorUtil pkg.ValidatorUtil) RolePermissionValidate {
+	return &rolePermissionValidate{
+		validatorUtil: validatorUtil,
+	}
 }

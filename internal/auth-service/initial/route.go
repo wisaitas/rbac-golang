@@ -25,30 +25,30 @@ func initializeRoutes(
 		UserRoutes: routes.NewUserRoutes(
 			apiRoutes,
 			&handlers.UserHandler,
-			&validates.UserValidate,
-			&middlewares.AuthMiddleware,
-			&middlewares.UserMiddleware,
+			validates.UserValidate,
+			middlewares.AuthMiddleware,
+			middlewares.UserMiddleware,
 		),
 		AuthRoutes: routes.NewAuthRoutes(
 			apiRoutes,
 			&handlers.AuthHandler,
-			&validates.AuthValidate,
-			&middlewares.AuthMiddleware,
+			validates.AuthValidate,
+			middlewares.AuthMiddleware,
 		),
 		ProvinceRoutes: routes.NewProvinceRoutes(
 			apiRoutes,
 			&handlers.ProvinceHandler,
-			&validates.ProvinceValidate,
+			validates.ProvinceValidate,
 		),
 		DistrictRoutes: routes.NewDistrictRoutes(
 			apiRoutes,
 			&handlers.DistrictHandler,
-			&validates.DistrictValidate,
+			validates.DistrictValidate,
 		),
 		SubDistrictRoutes: routes.NewSubDistrictRoutes(
 			apiRoutes,
 			&handlers.SubDistrictHandler,
-			&validates.SubDistrictValidate,
+			validates.SubDistrictValidate,
 		),
 		PermissionRoutes: routes.NewPermissionRoutes(
 			apiRoutes,
@@ -58,7 +58,7 @@ func initializeRoutes(
 		RoleRoutes: routes.NewRoleRoutes(
 			apiRoutes,
 			&handlers.RoleHandler,
-			&validates.RoleValidate,
+			validates.RoleValidate,
 		),
 	}
 }

@@ -6,17 +6,24 @@ import (
 	"github.com/wisaitas/rbac-golang/pkg"
 )
 
-type DistrictValidate struct {
+type DistrictValidate interface {
+	ValidateGetDistrictsRequest(c *fiber.Ctx) error
 }
 
-func NewDistrictValidate() *DistrictValidate {
-	return &DistrictValidate{}
+type districtValidate struct {
+	validatorUtil pkg.ValidatorUtil
 }
 
-func (r *DistrictValidate) ValidateGetDistrictsRequest(c *fiber.Ctx) error {
+func NewDistrictValidate(validatorUtil pkg.ValidatorUtil) DistrictValidate {
+	return &districtValidate{
+		validatorUtil: validatorUtil,
+	}
+}
+
+func (r *districtValidate) ValidateGetDistrictsRequest(c *fiber.Ctx) error {
 	query := queries.DistrictQuery{}
 
-	if err := validateCommonPaginationQuery(c, &query); err != nil {
+	if err := validateCommonPaginationQuery(c, &query, r.validatorUtil); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(pkg.ErrorResponse{
 			Message: pkg.Error(err).Error(),
 		})

@@ -1,8 +1,16 @@
 package validates
 
-type UserHistoryValidate struct {
+import "github.com/wisaitas/rbac-golang/pkg"
+
+type UserHistoryValidate interface {
 }
 
-func NewUserHistoryValidate() *UserHistoryValidate {
-	return &UserHistoryValidate{}
+type userHistoryValidate struct {
+	validatorUtil pkg.ValidatorUtil
+}
+
+func NewUserHistoryValidate(validatorUtil pkg.ValidatorUtil) UserHistoryValidate {
+	return &userHistoryValidate{
+		validatorUtil: validatorUtil,
+	}
 }
