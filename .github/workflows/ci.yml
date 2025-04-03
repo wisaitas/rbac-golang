@@ -35,3 +35,28 @@ jobs:
 
       - name: Run tests
         run: go test ./... -v --cover
+
+  sonarqube:
+    name: SonarQube Analysis
+    needs: [build, test] # Run after build and test jobs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Required to get Git history for SonarQube analysis
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed for PR decoration
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # Your SonarQube token
+        with:
+          args: >
+            -Dsonar.projectKey=your-project-key
+            -Dsonar.projectName="Your Project Name"
+            -Dsonar.go.coverage.reportPaths=coverage/coverage.out
+            -Dsonar.sources=.
+            -Dsonar.exclusions=**/*_test.go,coverage/**
+            -Dsonar.tests=.
+            -Dsonar.test.inclusions=**/*_test.go
+            -Dsonar.go.tests.reportPaths=coverage/test-report.xml
