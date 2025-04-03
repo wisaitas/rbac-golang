@@ -1,21 +1,21 @@
 package district
 
 type DistrictService interface {
-	Read
-	Create
+	Get
+	Post
 }
 
 type districtService struct {
-	Read
-	Create
+	Get
+	Post
 }
 
 func NewDistrictService(
-	read Read,
-	create Create,
+	get Get,
+	post Post,
 ) DistrictService {
 	return &districtService{
-		Read:   read,
-		Create: create,
+		Get:  get,
+		Post: post,
 	}
 }

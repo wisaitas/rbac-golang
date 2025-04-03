@@ -1,17 +1,21 @@
 package permission
 
 type PermissionService interface {
-	Create
+	Post
+	Get
 }
 
 type permissionService struct {
-	Create
+	Post
+	Get
 }
 
 func NewPermissionService(
-	create Create,
+	post Post,
+	get Get,
 ) PermissionService {
 	return &permissionService{
-		Create: create,
+		Post: post,
+		Get:  get,
 	}
 }

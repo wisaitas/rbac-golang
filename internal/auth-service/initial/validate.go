@@ -20,16 +20,16 @@ type Validates struct {
 
 func initializeValidates(utils *Utils) *Validates {
 	return &Validates{
-		AddressValidate:        *validates.NewAddressValidate(utils.ValidatorUtil),
-		AuthValidate:           *validates.NewAuthValidate(utils.ValidatorUtil),
-		DistrictValidate:       *validates.NewDistrictValidate(utils.ValidatorUtil),
-		PermissionValidate:     *validates.NewPermissionValidate(utils.ValidatorUtil),
-		ProvinceValidate:       *validates.NewProvinceValidate(utils.ValidatorUtil),
-		RoleValidate:           *validates.NewRoleValidate(utils.ValidatorUtil),
-		RolePermissionValidate: *validates.NewRolePermissionValidate(utils.ValidatorUtil),
-		SubDistrictValidate:    *validates.NewSubDistrictValidate(utils.ValidatorUtil),
-		UserValidate:           *validates.NewUserValidate(utils.ValidatorUtil),
-		UserHistoryValidate:    *validates.NewUserHistoryValidate(utils.ValidatorUtil),
-		UserRoleValidate:       *validates.NewUserRoleValidate(utils.ValidatorUtil),
+		AddressValidate:        validates.NewAddressValidate(utils.ValidatorUtil),
+		AuthValidate:           validates.NewAuthValidate(utils.ValidatorUtil),
+		DistrictValidate:       validates.NewDistrictValidate(utils.ValidatorUtil),
+		PermissionValidate:     validates.NewPermissionValidate(utils.ValidatorUtil),
+		ProvinceValidate:       validates.NewProvinceValidate(utils.ValidatorUtil),
+		RoleValidate:           validates.NewRoleValidate(utils.ValidatorUtil),
+		RolePermissionValidate: validates.NewRolePermissionValidate(utils.ValidatorUtil),
+		SubDistrictValidate:    validates.NewSubDistrictValidate(utils.ValidatorUtil),
+		UserValidate:           validates.NewUserValidate(utils.ValidatorUtil),
+		UserHistoryValidate:    validates.NewUserHistoryValidate(utils.ValidatorUtil),
+		UserRoleValidate:       validates.NewUserRoleValidate(utils.ValidatorUtil),
 	}
 }

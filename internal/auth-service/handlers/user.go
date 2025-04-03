@@ -5,6 +5,7 @@ import (
 
 	"github.com/wisaitas/rbac-golang/internal/auth-service/dtos/params"
 	"github.com/wisaitas/rbac-golang/internal/auth-service/dtos/requests"
+	"github.com/wisaitas/rbac-golang/internal/auth-service/models"
 	"github.com/wisaitas/rbac-golang/internal/auth-service/services/user"
 	"github.com/wisaitas/rbac-golang/pkg"
 
@@ -44,6 +45,27 @@ func (r *UserHandler) GetUsers(c *fiber.Ctx) error {
 	})
 }
 
+func (r *UserHandler) GetUserProfile(c *fiber.Ctx) error {
+	userContext, ok := c.Locals("userContext").(models.UserContext)
+	if !ok {
+		return c.Status(fiber.StatusBadRequest).JSON(pkg.ErrorResponse{
+			Message: pkg.Error(errors.New("failed to get user context")).Error(),
+		})
+	}
+
+	resp, statusCode, err := r.userService.GetUserProfile(userContext)
+	if err != nil {
+		return c.Status(statusCode).JSON(pkg.ErrorResponse{
+			Message: pkg.Error(err).Error(),
+		})
+	}
+
+	return c.Status(statusCode).JSON(pkg.SuccessResponse{
+		Message: "user profile fetched successfully",
+		Data:    resp,
+	})
+}
+
 func (r *UserHandler) CreateUser(c *fiber.Ctx) error {
 	req, ok := c.Locals("req").(requests.CreateUserRequest)
 	if !ok {
@@ -79,6 +101,8 @@ func (r *UserHandler) UpdateUser(c *fiber.Ctx) error {
 			Message: pkg.Error(errors.New("failed to get params")).Error(),
 		})
 	}
+
+	return c.JSON(c.Locals("userContext"))
 
 	resp, statusCode, err := r.userService.UpdateUser(param, req)
 	if err != nil {

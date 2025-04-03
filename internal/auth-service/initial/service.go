@@ -23,8 +23,8 @@ type Services struct {
 func initializeServices(repos *Repositories, utils *Utils) *Services {
 	return &Services{
 		UserService: userService.NewUserService(
-			userService.NewRead(repos.UserRepository, utils.RedisUtil),
-			userService.NewCreate(repos.UserRepository, utils.RedisUtil),
+			userService.NewGet(repos.UserRepository, utils.RedisUtil),
+			userService.NewPost(repos.UserRepository, utils.RedisUtil),
 			userService.NewUpdate(repos.UserRepository, repos.UserHistoryRepository, utils.RedisUtil, utils.TransactionUtil),
 			userService.NewDelete(repos.UserRepository, utils.RedisUtil),
 			userService.NewTransaction(repos.UserRepository, utils.RedisUtil),
@@ -32,27 +32,29 @@ func initializeServices(repos *Repositories, utils *Utils) *Services {
 		AuthService: authService.NewAuthService(
 			repos.UserRepository,
 			repos.UserHistoryRepository,
+			repos.RoleRepository,
 			utils.RedisUtil,
 			utils.JWTUtil,
 		),
 		ProvinceService: provinceService.NewProvinceService(
-			provinceService.NewRead(repos.ProvinceRepository, utils.RedisUtil),
-			provinceService.NewCreate(repos.ProvinceRepository, utils.RedisUtil),
+			provinceService.NewGet(repos.ProvinceRepository, utils.RedisUtil),
+			provinceService.NewPost(repos.ProvinceRepository, utils.RedisUtil),
 		),
 		DistrictService: districtService.NewDistrictService(
-			districtService.NewRead(repos.DistrictRepository, utils.RedisUtil),
-			districtService.NewCreate(repos.DistrictRepository, utils.RedisUtil),
+			districtService.NewGet(repos.DistrictRepository, utils.RedisUtil),
+			districtService.NewPost(repos.DistrictRepository, utils.RedisUtil),
 		),
 		SubDistrictService: subDistrictService.NewSubDistrictService(
-			subDistrictService.NewRead(repos.SubDistrictRepository, utils.RedisUtil),
-			subDistrictService.NewCreate(repos.SubDistrictRepository, utils.RedisUtil),
+			subDistrictService.NewGet(repos.SubDistrictRepository, utils.RedisUtil),
+			subDistrictService.NewPost(repos.SubDistrictRepository, utils.RedisUtil),
 		),
 		PermissionService: permissionService.NewPermissionService(
-			permissionService.NewCreate(repos.PermissionRepository, utils.RedisUtil),
+			permissionService.NewPost(repos.PermissionRepository, utils.RedisUtil),
+			permissionService.NewGet(repos.PermissionRepository, utils.RedisUtil),
 		),
 		RoleService: roleService.NewRoleService(
-			roleService.NewCreate(repos.RoleRepository, utils.RedisUtil),
-			roleService.NewRead(repos.RoleRepository, utils.RedisUtil),
+			roleService.NewPost(repos.RoleRepository, utils.RedisUtil),
+			roleService.NewGet(repos.RoleRepository, utils.RedisUtil),
 		),
 	}
 }

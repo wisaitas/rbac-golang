@@ -6,17 +6,21 @@ import (
 	"github.com/wisaitas/rbac-golang/pkg"
 )
 
-type SubDistrictValidate struct {
+type SubDistrictValidate interface {
+	ValidateGetSubDistrictsRequest(c *fiber.Ctx) error
+}
+
+type subDistrictValidate struct {
 	validatorUtil pkg.ValidatorUtil
 }
 
-func NewSubDistrictValidate(validatorUtil pkg.ValidatorUtil) *SubDistrictValidate {
-	return &SubDistrictValidate{
+func NewSubDistrictValidate(validatorUtil pkg.ValidatorUtil) SubDistrictValidate {
+	return &subDistrictValidate{
 		validatorUtil: validatorUtil,
 	}
 }
 
-func (r *SubDistrictValidate) ValidateGetSubDistrictsRequest(c *fiber.Ctx) error {
+func (r *subDistrictValidate) ValidateGetSubDistrictsRequest(c *fiber.Ctx) error {
 	query := queries.SubDistrictQuery{}
 
 	if err := validateCommonPaginationQuery(c, &query, r.validatorUtil); err != nil {

@@ -63,14 +63,14 @@ func (r *AuthHandler) Register(c *fiber.Ctx) error {
 }
 
 func (r *AuthHandler) Logout(c *fiber.Ctx) error {
-	userContext, ok := c.Locals("userContext").(models.UserContext)
+	tokenContext, ok := c.Locals("userContext").(models.TokenContext)
 	if !ok {
 		return c.Status(fiber.StatusUnauthorized).JSON(pkg.ErrorResponse{
 			Message: pkg.Error(errors.New("user context not found")).Error(),
 		})
 	}
 
-	statusCode, err := r.authService.Logout(userContext)
+	statusCode, err := r.authService.Logout(tokenContext)
 	if err != nil {
 		return c.Status(statusCode).JSON(pkg.ErrorResponse{
 			Message: pkg.Error(err).Error(),

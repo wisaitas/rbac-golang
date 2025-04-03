@@ -1,21 +1,21 @@
 package role
 
 type RoleService interface {
-	Create
-	Read
+	Post
+	Get
 }
 
 type roleService struct {
-	Create
-	Read
+	Post
+	Get
 }
 
 func NewRoleService(
-	create Create,
-	read Read,
+	post Post,
+	get Get,
 ) RoleService {
 	return &roleService{
-		Create: create,
-		Read:   read,
+		Post: post,
+		Get:  get,
 	}
 }

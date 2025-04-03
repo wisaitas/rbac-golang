@@ -1,21 +1,21 @@
 package sub_district
 
 type SubDistrictService interface {
-	Read
-	Create
+	Get
+	Post
 }
 
 type subDistrictService struct {
-	Read
-	Create
+	Get
+	Post
 }
 
 func NewSubDistrictService(
-	read Read,
-	create Create,
+	get Get,
+	post Post,
 ) SubDistrictService {
 	return &subDistrictService{
-		Read:   read,
-		Create: create,
+		Get:  get,
+		Post: post,
 	}
 }

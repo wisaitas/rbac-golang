@@ -5,19 +5,19 @@ import (
 	"github.com/wisaitas/rbac-golang/pkg"
 )
 
-type Create interface {
+type Post interface {
 }
 
-type create struct {
+type post struct {
 	provinceRepository repositories.ProvinceRepository
 	redisUtil          pkg.RedisUtil
 }
 
-func NewCreate(
+func NewPost(
 	provinceRepository repositories.ProvinceRepository,
 	redisUtil pkg.RedisUtil,
-) Create {
-	return &create{
+) Post {
+	return &post{
 		provinceRepository: provinceRepository,
 		redisUtil:          redisUtil,
 	}

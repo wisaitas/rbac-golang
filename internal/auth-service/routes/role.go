@@ -9,13 +9,13 @@ import (
 type RoleRoutes struct {
 	app          fiber.Router
 	roleHandler  *handlers.RoleHandler
-	roleValidate *validates.RoleValidate
+	roleValidate validates.RoleValidate
 }
 
 func NewRoleRoutes(
 	app fiber.Router,
 	roleHandler *handlers.RoleHandler,
-	roleValidate *validates.RoleValidate,
+	roleValidate validates.RoleValidate,
 ) *RoleRoutes {
 	return &RoleRoutes{
 		app:          app,

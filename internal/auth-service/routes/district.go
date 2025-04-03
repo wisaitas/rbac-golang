@@ -9,13 +9,13 @@ import (
 type DistrictRoutes struct {
 	app              fiber.Router
 	districtHandler  *handlers.DistrictHandler
-	districtValidate *validates.DistrictValidate
+	districtValidate validates.DistrictValidate
 }
 
 func NewDistrictRoutes(
 	app fiber.Router,
 	districtHandler *handlers.DistrictHandler,
-	districtValidate *validates.DistrictValidate,
+	districtValidate validates.DistrictValidate,
 ) *DistrictRoutes {
 	return &DistrictRoutes{
 		app:              app,

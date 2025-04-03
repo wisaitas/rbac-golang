@@ -1,21 +1,21 @@
 package province
 
 type ProvinceService interface {
-	Read
-	Create
+	Get
+	Post
 }
 
 type provinceService struct {
-	Read
-	Create
+	Get
+	Post
 }
 
 func NewProvinceService(
-	read Read,
-	create Create,
+	get Get,
+	post Post,
 ) ProvinceService {
 	return &provinceService{
-		Read:   read,
-		Create: create,
+		Get:  get,
+		Post: post,
 	}
 }

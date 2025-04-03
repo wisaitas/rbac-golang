@@ -8,26 +8,26 @@ import (
 	"github.com/wisaitas/rbac-golang/pkg"
 )
 
-type Create interface {
+type Post interface {
 	CreateRole(req requests.CreateRoleRequest) (statusCode int, err error)
 }
 
-type create struct {
+type post struct {
 	roleRepository repositories.RoleRepository
 	redisUtil      pkg.RedisUtil
 }
 
-func NewCreate(
+func NewPost(
 	roleRepository repositories.RoleRepository,
 	redisUtil pkg.RedisUtil,
-) Create {
-	return &create{
+) Post {
+	return &post{
 		roleRepository: roleRepository,
 		redisUtil:      redisUtil,
 	}
 }
 
-func (r *create) CreateRole(req requests.CreateRoleRequest) (statusCode int, err error) {
+func (r *post) CreateRole(req requests.CreateRoleRequest) (statusCode int, err error) {
 	_ = req.ReqToModel()
 	return http.StatusOK, nil
 }
