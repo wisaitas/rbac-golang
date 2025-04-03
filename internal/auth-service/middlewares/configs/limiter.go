@@ -9,7 +9,7 @@ import (
 
 func Limiter() fiber.Handler {
 	return limiter.New(limiter.Config{
-		Max:        100,             // 100 request per minute same ip
-		Expiration: 1 * time.Minute, // 1 minute reset counter
+		Max:        100,
+		Expiration: 1 * time.Minute,
 	})
 }
