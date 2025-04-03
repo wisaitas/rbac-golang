@@ -107,7 +107,6 @@ func generateSeedID(path Path) {
 		subDistrictIDToUUID[subDistricts[i].ID] = subDistricts[i].UUID
 	}
 
-	// สร้าง map เก็บ ID เดิมและ ID ใหม่ของ roles
 	roleIDMap := make(map[string]string)
 	for i := range roles {
 		oldID := roles[i].ID
@@ -115,7 +114,6 @@ func generateSeedID(path Path) {
 		roleIDMap[oldID] = roles[i].ID
 	}
 
-	// สร้าง map เก็บ ID เดิมและ ID ใหม่ของ permissions
 	permissionIDMap := make(map[string]string)
 	for i := range permissions {
 		oldID := permissions[i].ID
@@ -123,13 +121,11 @@ func generateSeedID(path Path) {
 		permissionIDMap[oldID] = permissions[i].ID
 	}
 
-	// อัพเดท role_id และ permission_id ใน rolesPermissions
 	for i := range rolesPermissions {
 		rolesPermissions[i].RoleID = roleIDMap[rolesPermissions[i].RoleID]
 		rolesPermissions[i].PermissionID = permissionIDMap[rolesPermissions[i].PermissionID]
 	}
 
-	// สร้าง map เก็บ ID เดิมและ ID ใหม่ของ users
 	userIDMap := make(map[string]string)
 	for i := range users {
 		oldID := users[i].ID
@@ -137,7 +133,6 @@ func generateSeedID(path Path) {
 		userIDMap[oldID] = users[i].ID
 	}
 
-	// อัพเดท user_id และ role_id ใน usersRoles
 	for i := range usersRoles {
 		usersRoles[i].UserID = userIDMap[usersRoles[i].UserID]
 		usersRoles[i].RoleID = roleIDMap[usersRoles[i].RoleID]
