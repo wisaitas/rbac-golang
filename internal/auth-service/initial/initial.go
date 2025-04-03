@@ -89,7 +89,7 @@ func (r *App) SetupMiddlewares() {
 		middlewareConfigs.Recovery(),
 		middlewareConfigs.Limiter(),
 		middlewareConfigs.CORS(),
-		middlewareConfigs.Healthz(),
 		middlewareConfigs.Logger(),
+		middlewareConfigs.Healthz(),
 	)
 }

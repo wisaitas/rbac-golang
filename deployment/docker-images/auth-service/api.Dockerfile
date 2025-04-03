@@ -2,18 +2,18 @@ FROM golang:1.23.2-alpine
 
 WORKDIR /app
 
-COPY ../../../auth-service/go.mod ../../../auth-service/go.sum ./
+COPY ../../../go.mod ../../../go.sum ./
 
 RUN go mod download && go mod verify
 
-COPY ../../../auth-service/cmd ./cmd
-COPY ../../../auth-service/data ./data
-COPY ../../../auth-service/internal/auth-service ./internal/auth-service
-COPY ../../../auth-service/pkg ./pkg
+COPY ../../../cmd ./cmd
+COPY ../../../data ./data
+COPY ../../../internal/auth-service ./internal/auth-service
+COPY ../../../pkg ./pkg
 
 RUN go mod tidy
 
-RUN go build -o main cmd/main.go
+RUN go build -o main cmd/auth-service/main.go
 
 RUN chmod +x main
 
