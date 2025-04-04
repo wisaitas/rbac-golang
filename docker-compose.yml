@@ -78,6 +78,27 @@ services:
       interval: 30s
       timeout: 5s
       retries: 5
+  sonar-scanner:
+    image: sonarsource/sonar-scanner-cli:11
+    container_name: rbac-golang-sonar-scanner
+    depends_on:
+      - sonarqube
+    volumes:
+      - ./:/usr/src
+    working_dir: /usr/src
+    environment:
+      - SONAR_HOST_URL=http://sonarqube:9000
+      - SONAR_TOKEN=sqa_cb4e2285569430c0744e28c6ad455f37d6f759be
+    command: >
+      sonar-scanner
+      -Dsonar.projectKey=rbac-golang-auth-service
+      -Dsonar.projectName="RBAC Golang Auth Service"
+      -Dsonar.sources=.
+      -Dsonar.exclusions=**/*_test.go,**/vendor/**,**/testdata/**
+      -Dsonar.tests=.
+      -Dsonar.test.inclusions=**/*_test.go
+      -Dsonar.go.coverage.reportPaths=coverage.out
+
 volumes:
   auth-db-data:
   redis-data:
