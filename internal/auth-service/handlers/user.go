@@ -102,7 +102,7 @@ func (r *UserHandler) UpdateUser(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.JSON(c.Locals("userContext")) // test bug for sonarqube scan found
+	return c.JSON(c.Locals("userContext"))
 
 	resp, statusCode, err := r.userService.UpdateUser(param, req)
 	if err != nil {
