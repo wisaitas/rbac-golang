@@ -50,10 +50,4 @@ jobs:
           scan-ref: "."
           format: "table"
           severity: "CRITICAL,HIGH"
-          output: "trivy-results.txt"
-
-      - name: Upload scan results
-        uses: actions/upload-artifact@v2
-        with:
-          name: trivy-results
-          path: trivy-results.txt
+          exit-code: "1"
