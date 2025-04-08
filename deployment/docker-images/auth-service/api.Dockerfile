@@ -1,4 +1,4 @@
-FROM golang:1.23.2-alpine
+FROM golang:1.23.2-alpine AS builder
 
 WORKDIR /app
 
@@ -13,8 +13,13 @@ COPY ../../../pkg ./pkg
 
 RUN go mod tidy
 
-RUN go build -o main cmd/auth-service/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main cmd/auth-service/main.go
 
-RUN chmod +x main
+FROM scratch
 
-CMD ["./main"]
+WORKDIR /root
+
+COPY --from=builder /app/main .
+COPY --from=builder /app/data ./data
+
+ENTRYPOINT ["./main"]
