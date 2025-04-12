@@ -16,11 +16,13 @@ type Route struct {
 }
 
 func initializeRoute(
-	apiRoute fiber.Router,
+	app *fiber.App,
 	handler *handler,
 	validate *validate,
 	middleware *middleware,
 ) {
+	apiRoute := app.Group("/api/v1")
+
 	route := &Route{
 		UserRoutes: routes.NewUserRoutes(
 			apiRoute,
@@ -62,10 +64,10 @@ func initializeRoute(
 		),
 	}
 
-	route.SetupRoutes()
+	route.setupRoute()
 }
 
-func (r *Route) SetupRoutes() {
+func (r *Route) setupRoute() {
 	r.UserRoutes.UserRoutes()
 	r.AuthRoutes.AuthRoutes()
 	r.ProvinceRoutes.ProvinceRoutes()

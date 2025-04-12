@@ -22,23 +22,22 @@ func InitializeApp() {
 
 	setupMiddlewares(app)
 
-	configs := initializeConfig()
+	config := initializeConfig()
 
-	util := initializeUtil(configs)
+	util := initializeUtil(config)
 
-	repo := initializeRepositorie(configs)
+	repo := initializeRepositorie(config)
 	services := initializeService(repo, util)
 	handlers := initializeHandler(services)
 	validate := initializeValidate(util)
 	middleware := initializeMiddleware(util)
 
-	apiRoute := app.Group("/api/v1")
-	initializeRoute(apiRoute, handlers, validate, middleware)
+	initializeRoute(app, handlers, validate, middleware)
 
-	run(app, configs)
+	run(app, config)
 }
 
-func run(app *fiber.App, configs *config) {
+func run(app *fiber.App, config *config) {
 	go func() {
 		if err := app.Listen(fmt.Sprintf(":%s", env.ENV.PORT)); err != nil {
 			log.Fatalf("error starting server: %v\n", pkg.Error(err))
@@ -50,11 +49,11 @@ func run(app *fiber.App, configs *config) {
 
 	<-gracefulShutdown
 
-	close(app, configs)
+	close(app, config)
 }
 
-func close(app *fiber.App, configs *config) {
-	sqlDB, err := configs.DB.DB()
+func close(app *fiber.App, config *config) {
+	sqlDB, err := config.DB.DB()
 	if err != nil {
 		log.Fatalf("error getting database: %v\n", pkg.Error(err))
 	}
@@ -63,8 +62,12 @@ func close(app *fiber.App, configs *config) {
 		log.Fatalf("error closing database: %v\n", pkg.Error(err))
 	}
 
-	if err := configs.Redis.Close(); err != nil {
+	if err := config.Redis.Close(); err != nil {
 		log.Fatalf("error closing redis: %v\n", pkg.Error(err))
+	}
+
+	if err := app.Shutdown(); err != nil {
+		log.Fatalf("error shutting down app: %v\n", pkg.Error(err))
 	}
 
 	log.Println("gracefully shutdown")
