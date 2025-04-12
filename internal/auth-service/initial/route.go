@@ -5,7 +5,7 @@ import (
 	"github.com/wisaitas/rbac-golang/internal/auth-service/routes"
 )
 
-type Routes struct {
+type Route struct {
 	UserRoutes        *routes.UserRoutes
 	AuthRoutes        *routes.AuthRoutes
 	ProvinceRoutes    *routes.ProvinceRoutes
@@ -15,55 +15,57 @@ type Routes struct {
 	RoleRoutes        *routes.RoleRoutes
 }
 
-func initializeRoutes(
-	apiRoutes fiber.Router,
-	handlers *Handlers,
-	validates *Validates,
-	middlewares *Middlewares,
-) *Routes {
-	return &Routes{
+func initializeRoute(
+	apiRoute fiber.Router,
+	handler *handler,
+	validate *validate,
+	middleware *middleware,
+) {
+	route := &Route{
 		UserRoutes: routes.NewUserRoutes(
-			apiRoutes,
-			&handlers.UserHandler,
-			validates.UserValidate,
-			middlewares.AuthMiddleware,
-			middlewares.UserMiddleware,
+			apiRoute,
+			&handler.UserHandler,
+			validate.UserValidate,
+			middleware.AuthMiddleware,
+			middleware.UserMiddleware,
 		),
 		AuthRoutes: routes.NewAuthRoutes(
-			apiRoutes,
-			&handlers.AuthHandler,
-			validates.AuthValidate,
-			middlewares.AuthMiddleware,
+			apiRoute,
+			&handler.AuthHandler,
+			validate.AuthValidate,
+			middleware.AuthMiddleware,
 		),
 		ProvinceRoutes: routes.NewProvinceRoutes(
-			apiRoutes,
-			&handlers.ProvinceHandler,
-			validates.ProvinceValidate,
+			apiRoute,
+			&handler.ProvinceHandler,
+			validate.ProvinceValidate,
 		),
 		DistrictRoutes: routes.NewDistrictRoutes(
-			apiRoutes,
-			&handlers.DistrictHandler,
-			validates.DistrictValidate,
+			apiRoute,
+			&handler.DistrictHandler,
+			validate.DistrictValidate,
 		),
 		SubDistrictRoutes: routes.NewSubDistrictRoutes(
-			apiRoutes,
-			&handlers.SubDistrictHandler,
-			validates.SubDistrictValidate,
+			apiRoute,
+			&handler.SubDistrictHandler,
+			validate.SubDistrictValidate,
 		),
 		PermissionRoutes: routes.NewPermissionRoutes(
-			apiRoutes,
-			&handlers.PermissionHandler,
-			validates.PermissionValidate,
+			apiRoute,
+			&handler.PermissionHandler,
+			validate.PermissionValidate,
 		),
 		RoleRoutes: routes.NewRoleRoutes(
-			apiRoutes,
-			&handlers.RoleHandler,
-			validates.RoleValidate,
+			apiRoute,
+			&handler.RoleHandler,
+			validate.RoleValidate,
 		),
 	}
+
+	route.SetupRoutes()
 }
 
-func (r *Routes) SetupRoutes() {
+func (r *Route) SetupRoutes() {
 	r.UserRoutes.UserRoutes()
 	r.AuthRoutes.AuthRoutes()
 	r.ProvinceRoutes.ProvinceRoutes()

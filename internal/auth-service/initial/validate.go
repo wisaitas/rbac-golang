@@ -4,7 +4,7 @@ import (
 	"github.com/wisaitas/rbac-golang/internal/auth-service/validates"
 )
 
-type Validates struct {
+type validate struct {
 	AddressValidate        validates.AddressValidate
 	AuthValidate           validates.AuthValidate
 	DistrictValidate       validates.DistrictValidate
@@ -18,18 +18,18 @@ type Validates struct {
 	UserRoleValidate       validates.UserRoleValidate
 }
 
-func initializeValidates(utils *Utils) *Validates {
-	return &Validates{
-		AddressValidate:        validates.NewAddressValidate(utils.ValidatorUtil),
-		AuthValidate:           validates.NewAuthValidate(utils.ValidatorUtil),
-		DistrictValidate:       validates.NewDistrictValidate(utils.ValidatorUtil),
-		PermissionValidate:     validates.NewPermissionValidate(utils.ValidatorUtil),
-		ProvinceValidate:       validates.NewProvinceValidate(utils.ValidatorUtil),
-		RoleValidate:           validates.NewRoleValidate(utils.ValidatorUtil),
-		RolePermissionValidate: validates.NewRolePermissionValidate(utils.ValidatorUtil),
-		SubDistrictValidate:    validates.NewSubDistrictValidate(utils.ValidatorUtil),
-		UserValidate:           validates.NewUserValidate(utils.ValidatorUtil),
-		UserHistoryValidate:    validates.NewUserHistoryValidate(utils.ValidatorUtil),
-		UserRoleValidate:       validates.NewUserRoleValidate(utils.ValidatorUtil),
+func initializeValidate(util *util) *validate {
+	return &validate{
+		AddressValidate:        validates.NewAddressValidate(util.ValidatorUtil),
+		AuthValidate:           validates.NewAuthValidate(util.ValidatorUtil),
+		DistrictValidate:       validates.NewDistrictValidate(util.ValidatorUtil),
+		PermissionValidate:     validates.NewPermissionValidate(util.ValidatorUtil),
+		ProvinceValidate:       validates.NewProvinceValidate(util.ValidatorUtil),
+		RoleValidate:           validates.NewRoleValidate(util.ValidatorUtil),
+		RolePermissionValidate: validates.NewRolePermissionValidate(util.ValidatorUtil),
+		SubDistrictValidate:    validates.NewSubDistrictValidate(util.ValidatorUtil),
+		UserValidate:           validates.NewUserValidate(util.ValidatorUtil),
+		UserHistoryValidate:    validates.NewUserHistoryValidate(util.ValidatorUtil),
+		UserRoleValidate:       validates.NewUserRoleValidate(util.ValidatorUtil),
 	}
 }

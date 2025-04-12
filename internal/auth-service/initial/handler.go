@@ -4,7 +4,7 @@ import (
 	"github.com/wisaitas/rbac-golang/internal/auth-service/handlers"
 )
 
-type Handlers struct {
+type handler struct {
 	UserHandler        handlers.UserHandler
 	AuthHandler        handlers.AuthHandler
 	ProvinceHandler    handlers.ProvinceHandler
@@ -14,14 +14,14 @@ type Handlers struct {
 	RoleHandler        handlers.RoleHandler
 }
 
-func initializeHandlers(services *Services) *Handlers {
-	return &Handlers{
-		UserHandler:        *handlers.NewUserHandler(services.UserService),
-		AuthHandler:        *handlers.NewAuthHandler(services.AuthService),
-		ProvinceHandler:    *handlers.NewProvinceHandler(services.ProvinceService),
-		DistrictHandler:    *handlers.NewDistrictHandler(services.DistrictService),
-		SubDistrictHandler: *handlers.NewSubDistrictHandler(services.SubDistrictService),
-		PermissionHandler:  *handlers.NewPermissionHandler(services.PermissionService),
-		RoleHandler:        *handlers.NewRoleHandler(services.RoleService),
+func initializeHandler(service *service) *handler {
+	return &handler{
+		UserHandler:        *handlers.NewUserHandler(service.UserService),
+		AuthHandler:        *handlers.NewAuthHandler(service.AuthService),
+		ProvinceHandler:    *handlers.NewProvinceHandler(service.ProvinceService),
+		DistrictHandler:    *handlers.NewDistrictHandler(service.DistrictService),
+		SubDistrictHandler: *handlers.NewSubDistrictHandler(service.SubDistrictService),
+		PermissionHandler:  *handlers.NewPermissionHandler(service.PermissionService),
+		RoleHandler:        *handlers.NewRoleHandler(service.RoleService),
 	}
 }

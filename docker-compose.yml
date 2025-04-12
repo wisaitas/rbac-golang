@@ -98,19 +98,19 @@ services:
   #     -Dsonar.tests=.
   #     -Dsonar.test.inclusions=**/*_test.go
   #     -Dsonar.go.coverage.reportPaths=coverage.out
-  trivy:
-    image: aquasec/trivy:0.61.0
-    container_name: rbac-golang-trivy
-    volumes:
-      - ./:/app
-    command: >
-      filesystem
-      --severity HIGH,CRITICAL
-      --format table
-      --output /app/trivy-report.txt
-      /app
-    depends_on:
-      - auth-service
+  # trivy:
+  #   image: aquasec/trivy:0.61.0
+  #   container_name: rbac-golang-trivy
+  #   volumes:
+  #     - ./:/app
+  #   command: >
+  #     filesystem
+  #     --severity HIGH,CRITICAL
+  #     --format table
+  #     --output /app/trivy-report.txt
+  #     /app
+  #   depends_on:
+  #     - auth-service
 
 volumes:
   auth-db-data:

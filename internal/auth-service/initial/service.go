@@ -10,7 +10,7 @@ import (
 	userService "github.com/wisaitas/rbac-golang/internal/auth-service/services/user"
 )
 
-type Services struct {
+type service struct {
 	UserService        userService.UserService
 	AuthService        authService.AuthService
 	ProvinceService    provinceService.ProvinceService
@@ -20,41 +20,41 @@ type Services struct {
 	RoleService        roleService.RoleService
 }
 
-func initializeServices(repos *Repositories, utils *Utils) *Services {
-	return &Services{
+func initializeService(repo *repositorie, util *util) *service {
+	return &service{
 		UserService: userService.NewUserService(
-			userService.NewGet(repos.UserRepository, utils.RedisUtil),
-			userService.NewPost(repos.UserRepository, utils.RedisUtil),
-			userService.NewUpdate(repos.UserRepository, repos.UserHistoryRepository, utils.RedisUtil, utils.TransactionUtil),
-			userService.NewDelete(repos.UserRepository, utils.RedisUtil),
-			userService.NewTransaction(repos.UserRepository, utils.RedisUtil),
+			userService.NewGet(repo.UserRepository, util.RedisUtil),
+			userService.NewPost(repo.UserRepository, util.RedisUtil),
+			userService.NewUpdate(repo.UserRepository, repo.UserHistoryRepository, util.RedisUtil, util.TransactionUtil),
+			userService.NewDelete(repo.UserRepository, util.RedisUtil),
+			userService.NewTransaction(repo.UserRepository, util.RedisUtil),
 		),
 		AuthService: authService.NewAuthService(
-			repos.UserRepository,
-			repos.UserHistoryRepository,
-			repos.RoleRepository,
-			utils.RedisUtil,
-			utils.JWTUtil,
+			repo.UserRepository,
+			repo.UserHistoryRepository,
+			repo.RoleRepository,
+			util.RedisUtil,
+			util.JWTUtil,
 		),
 		ProvinceService: provinceService.NewProvinceService(
-			provinceService.NewGet(repos.ProvinceRepository, utils.RedisUtil),
-			provinceService.NewPost(repos.ProvinceRepository, utils.RedisUtil),
+			provinceService.NewGet(repo.ProvinceRepository, util.RedisUtil),
+			provinceService.NewPost(repo.ProvinceRepository, util.RedisUtil),
 		),
 		DistrictService: districtService.NewDistrictService(
-			districtService.NewGet(repos.DistrictRepository, utils.RedisUtil),
-			districtService.NewPost(repos.DistrictRepository, utils.RedisUtil),
+			districtService.NewGet(repo.DistrictRepository, util.RedisUtil),
+			districtService.NewPost(repo.DistrictRepository, util.RedisUtil),
 		),
 		SubDistrictService: subDistrictService.NewSubDistrictService(
-			subDistrictService.NewGet(repos.SubDistrictRepository, utils.RedisUtil),
-			subDistrictService.NewPost(repos.SubDistrictRepository, utils.RedisUtil),
+			subDistrictService.NewGet(repo.SubDistrictRepository, util.RedisUtil),
+			subDistrictService.NewPost(repo.SubDistrictRepository, util.RedisUtil),
 		),
 		PermissionService: permissionService.NewPermissionService(
-			permissionService.NewPost(repos.PermissionRepository, utils.RedisUtil),
-			permissionService.NewGet(repos.PermissionRepository, utils.RedisUtil),
+			permissionService.NewPost(repo.PermissionRepository, util.RedisUtil),
+			permissionService.NewGet(repo.PermissionRepository, util.RedisUtil),
 		),
 		RoleService: roleService.NewRoleService(
-			roleService.NewPost(repos.RoleRepository, utils.RedisUtil),
-			roleService.NewGet(repos.RoleRepository, utils.RedisUtil),
+			roleService.NewPost(repo.RoleRepository, util.RedisUtil),
+			roleService.NewGet(repo.RoleRepository, util.RedisUtil),
 		),
 	}
 }

@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/wisaitas/rbac-golang/internal/auth-service/configs"
+	"github.com/wisaitas/rbac-golang/internal/auth-service/env"
 	"github.com/wisaitas/rbac-golang/pkg"
 )
 
@@ -15,7 +15,7 @@ func GenerateJWTToken(data map[string]interface{}, exp int64) (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claim)
 
-	tokenString, err := token.SignedString([]byte(configs.ENV.JWT_SECRET))
+	tokenString, err := token.SignedString([]byte(env.ENV.JWT_SECRET))
 	if err != nil {
 		return "", pkg.Error(err)
 	}
@@ -30,7 +30,7 @@ func GenerateRedisToken(data map[string]interface{}, exp int64) (string, error) 
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claim)
 
-	tokenString, err := token.SignedString([]byte(configs.ENV.JWT_SECRET))
+	tokenString, err := token.SignedString([]byte(env.ENV.JWT_SECRET))
 	if err != nil {
 		return "", pkg.Error(err)
 	}

@@ -2,7 +2,7 @@ package initial
 
 import "github.com/wisaitas/rbac-golang/pkg"
 
-type Utils struct {
+type util struct {
 	RedisUtil       pkg.RedisUtil
 	JWTUtil         pkg.JWTUtil
 	TransactionUtil pkg.TransactionUtil
@@ -10,11 +10,11 @@ type Utils struct {
 	BcryptUtil      pkg.BcryptUtil
 }
 
-func initializeUtils(configs *Configs) *Utils {
-	return &Utils{
-		RedisUtil:       pkg.NewRedisUtil(configs.Redis),
+func initializeUtil(config *config) *util {
+	return &util{
+		RedisUtil:       pkg.NewRedisUtil(config.Redis),
 		JWTUtil:         pkg.NewJWTUtil(),
-		TransactionUtil: pkg.NewTransactionUtil(configs.DB),
+		TransactionUtil: pkg.NewTransactionUtil(config.DB),
 		ValidatorUtil:   pkg.NewValidatorUtil(),
 		BcryptUtil:      pkg.NewBcrypt(),
 	}

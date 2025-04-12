@@ -9,7 +9,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/redis/go-redis/v9"
-	"github.com/wisaitas/rbac-golang/internal/auth-service/configs"
+	"github.com/wisaitas/rbac-golang/internal/auth-service/env"
 	"github.com/wisaitas/rbac-golang/internal/auth-service/models"
 	"github.com/wisaitas/rbac-golang/pkg"
 )
@@ -23,7 +23,7 @@ func authToken(c *fiber.Ctx, redisUtil pkg.RedisUtil, jwtUtil pkg.JWTUtil) error
 	token := strings.TrimPrefix(authHeader, "Bearer ")
 
 	var tokenContext models.TokenContext
-	if err := jwtUtil.ValidateToken(token, &tokenContext, configs.ENV.JWT_SECRET); err != nil {
+	if err := jwtUtil.ValidateToken(token, &tokenContext, env.ENV.JWT_SECRET); err != nil {
 		return pkg.Error(err)
 	}
 
@@ -54,7 +54,7 @@ func authRefreshToken(c *fiber.Ctx, redisUtil pkg.RedisUtil, jwtUtil pkg.JWTUtil
 	token := strings.TrimPrefix(authHeader, "Bearer ")
 
 	var tokenContext models.TokenContext
-	if err := jwtUtil.ValidateToken(token, &tokenContext, configs.ENV.JWT_SECRET); err != nil {
+	if err := jwtUtil.ValidateToken(token, &tokenContext, env.ENV.JWT_SECRET); err != nil {
 		return pkg.Error(err)
 	}
 
